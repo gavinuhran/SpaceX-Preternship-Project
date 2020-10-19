@@ -15,7 +15,7 @@ class Order:
                 'Units resulting in downstream failure:  ' + str(self.units_downstream_failure) + '\n'
                 'Cost away from target (%):  ' + str(self.cost_away_from_target))
 		
-		def score(self, po_weight, ncu_weight, udf_weight, cat_weight):
-				return (po_weight * self.days_past_PO) + (ncu_weight * self.nonconforming_units) + (udf_weight * self.units_downstream_failure) + (cat_weight * self.cost_away_from_target)
+    def score(self, po_weight, ncu_weight, udf_weight, cat_weight):
+        return (po_weight * self.days_past_PO) + (ncu_weight * self.nonconforming_units) + (udf_weight * self.units_downstream_failure) + (cat_weight * self.cost_away_from_target)
 
 
