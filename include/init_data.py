@@ -1,9 +1,9 @@
 import csv
 from Vendor import *
 
-def main():
+def import_data(file_location):
     vendors = {}
-    with open('./include/data/FakeData.csv', 'r', encoding='utf-8-sig') as data:
+    with open(file_location, 'r', encoding='utf-8-sig') as data:
         data_reader = csv.reader(data)
         for row in data_reader:
             # Converts data to proper data types (ints and float for numeric data)
@@ -18,7 +18,10 @@ def main():
             # Add order to vendor's order array
             vendors[vendor_name].add_order(order_data)
 
-    print(vendors['A'])
+    
+    # print(vendors['A'])
+
+    return vendors
 
 if __name__ == '__main__':
     main()
