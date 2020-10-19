@@ -7,6 +7,8 @@ class Order:
         self.units_downstream_failure = uIn
         self.cost_away_from_target = cIn
 
+        self.score = 1.0 / (((self.nonconforming_units + self.units_downstream_failure) / float(self.lot_size)) * float(self.cost_away_from_target))
+
     def __str__(self):
         return ('ORDER ' + str(self.order_number) + '\n'
                 'Days past PO:  ' + str(self.days_past_PO) + '\n'

@@ -7,13 +7,13 @@ class Vendor:
     def __init__(self, name): 
         self.name = name
         self.orders = []
-        self.score = 0
 
         self.total_days_past_PO = 0
         self.total_lot_size = 0
         self.total_nonconforming_units = 0
         self.total_units_downstream_failure = 0
         self.total_cost_away_from_target = 0
+        self.total_orders_score = 0
 
     # TO STRING
     # Parameters: 
@@ -23,7 +23,7 @@ class Vendor:
     # GET SCORE
     # Parameters: 
     def get_score(self):
-        return self.score
+        return self.total_orders_score / float(self.get_num_orders())
 
     # GET NUM ORDERS
     # Parameters: 
@@ -43,6 +43,7 @@ class Vendor:
         self.total_nonconforming_units += new_order.nonconforming_units
         self.total_units_downstream_failure += new_order.units_downstream_failure
         self.total_cost_away_from_target += new_order.cost_away_from_target
+        self.total_orders_score += new_order.score
 
     # GET AVERAGE DAYS PAST PO
     # Parameters: 
