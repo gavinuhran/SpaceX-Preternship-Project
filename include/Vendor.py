@@ -1,21 +1,36 @@
 class Vendor:
     name = ''
-    score = -1
+    score = 0
 
     orders = []
 
-    avg_days_past_PO = -1
-    '''avg_lot_size = -1
-    avg_nonconforming_units = -1
-    avg_units_downstream_failure = -1
-    avg_cost_away_from_target = -1'''
+    total_days_past_PO = 0
+    total_lot_size = 0
+    total_nonconforming_units = 0
+    total_units_downstream_failure = 0
+    total_cost_away_from_target = 0
 
-
-    def __init__(self, name):
+    # CONSTRUCTOR
+    # Parameters: string
+    def __init__(self, name): 
         self.name = name
 
+    # TO STRING
+    # Parameters: 
     def __str__(self):
         return self.name
+
+    # GET NUM ORDERS
+    # Parameters: 
+    def get_num_orders(self):
+        return len(orders)
+
+    # ADD ORDER
+    # Parameters: Order
+    def add_order(self, order):
+        orders.append(order)
+        total_days_past_PO += order.days_past_PO
+
 
 v = Vendor('Wills Steel')
 print(v)
