@@ -1,12 +1,4 @@
 class Order:
-    order_number = -1
-
-    days_past_PO = 0
-    lot_size = 0
-    nonconforming_units = 0
-    units_downstream_failure = 0
-    cost_away_from_target = 0
-
     def __init__(self, numIn, dIn, lIn, nIn, uIn, cIn):
         self.order_number = numIn
         self.days_past_PO = dIn

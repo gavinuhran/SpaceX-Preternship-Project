@@ -1,26 +1,24 @@
 from Order import *
 
 class Vendor:
-    name = ''
-    score = 0
-
-    orders = []
-
-    total_days_past_PO = 0
-    total_lot_size = 0
-    total_nonconforming_units = 0
-    total_units_downstream_failure = 0
-    total_cost_away_from_target = 0
 
     # CONSTRUCTOR
     # Parameters: string
     def __init__(self, name): 
         self.name = name
+        self.orders = []
+        self.score = 0
+
+        self.total_days_past_PO = 0
+        self.total_lot_size = 0
+        self.total_nonconforming_units = 0
+        self.total_units_downstream_failure = 0
+        self.total_cost_away_from_target = 0
 
     # TO STRING
     # Parameters: 
     def __str__(self):
-        return self.name
+        return self.name + ' - Number of orders: ' + str(self.get_num_orders())
 
     # GET NUM ORDERS
     # Parameters: 
@@ -28,15 +26,18 @@ class Vendor:
         return len(self.orders)
 
     # ADD ORDER
-    # Parameters: Order
+    # Parameters: List representation of order data
     def add_order(self, order):
-        self.orders.append(order)
+        # Creates new order based on a list of order data
+        new_order = Order(self.get_num_orders(), order[0],
+                              order[1], order[2], order[3], order[4])
+        self.orders.append(new_order)
 
-        self.total_days_past_PO += order.days_past_PO
-        self.total_lot_size += order.lot_size
-        self.total_nonconforming_units += order.nonconforming_units
-        self.total_units_downstream_failure += order.units_downstream_failure
-        self.total_cost_away_from_target += order.cost_away_from_target
+        self.total_days_past_PO += new_order.days_past_PO
+        self.total_lot_size += new_order.lot_size
+        self.total_nonconforming_units += new_order.nonconforming_units
+        self.total_units_downstream_failure += new_order.units_downstream_failure
+        self.total_cost_away_from_target += new_order.cost_away_from_target
 
     # GET AVERAGE DAYS PAST PO
     # Parameters: 
