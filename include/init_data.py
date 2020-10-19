@@ -3,7 +3,7 @@ from Vendor import *
 
 def main():
     vendors = {}
-    with open('./data/FakeData.csv', 'r', encoding='utf-8-sig') as data:
+    with open('./include/data/FakeData.csv', 'r', encoding='utf-8-sig') as data:
         data_reader = csv.reader(data)
         for row in data_reader:
             # Converts data to proper data types (ints and float for numeric data)
