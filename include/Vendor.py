@@ -20,6 +20,11 @@ class Vendor:
     def __str__(self):
         return self.name + ' - Number of orders: ' + str(self.get_num_orders())
 
+    # GET SCORE
+    # Parameters: 
+    def get_score(self):
+        return self.score
+
     # GET NUM ORDERS
     # Parameters: 
     def get_num_orders(self):
