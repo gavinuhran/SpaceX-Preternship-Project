@@ -68,3 +68,9 @@ class Vendor:
     # Parameters: 
     def get_avg_cost_away_from_target(self):
         return self.total_cost_away_from_target / float(len(self.orders))
+
+		# GET THE TOTAL FAILURES FROM THE TOTAL ORDERS
+		# Parameters: None
+		def get_total_avg_failure(self):
+			failures = self.get_avg_days_past_PO() + self.get_avg_nonconforming units() + self.get_avg_units_downstream_failure() + get_avg_cost_away_from_target()
+			return failures
