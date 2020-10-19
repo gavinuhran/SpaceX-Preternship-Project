@@ -30,6 +30,9 @@ class Vendor:
     def get_num_orders(self):
         return len(self.orders)
 
+    def get_order(self, pos):
+        return self.orders[pos]
+
     # ADD ORDER
     # Parameters: List representation of order data
     def add_order(self, order):
