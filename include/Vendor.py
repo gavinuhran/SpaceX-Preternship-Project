@@ -72,5 +72,5 @@ class Vendor:
 		# GET THE TOTAL FAILURES FROM THE TOTAL ORDERS
 		# Parameters: None
     def get_total_avg_failure(self):
-        failures = self.get_avg_days_past_PO() + self.get_avg_nonconforming_units() + self.get_avg_units_downstream_failure() + get_avg_cost_away_from_target()
+        failures = self.get_avg_days_past_PO() + self.get_avg_nonconforming_units() + self.get_avg_units_downstream_failure() + self.get_avg_cost_away_from_target()
         return failures
