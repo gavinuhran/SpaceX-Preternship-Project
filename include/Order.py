@@ -17,6 +17,3 @@ class Order:
 
     def __str__(self):
         return 'Order ' + str(self.order_number)
-
-o = Order(2, 8, 432, 9, 1, 40)
-print(o)
