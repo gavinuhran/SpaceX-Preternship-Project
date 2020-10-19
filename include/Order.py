@@ -16,4 +16,9 @@ class Order:
         self.cost_away_from_target = cIn
 
     def __str__(self):
-        return 'Order ' + str(self.order_number)
+        return ('ORDER ' + str(self.order_number) + '\n'
+                'Days past PO:  ' + str(self.days_past_PO) + '\n'
+                'Lot size:  ' + str(self.lot_size) + '\n'
+                'Nonconforming units:  ' + str(self.nonconforming_units) + '\n'
+                'Units resulting in downstream failure:  ' + str(self.units_downstream_failure) + '\n'
+                'Cost away from target (%):  ' + str(self.cost_away_from_target))
