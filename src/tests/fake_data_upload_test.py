@@ -6,6 +6,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 sys.path.insert(0, os.path.join(BASE_DIR, 'include'))
 
 import init_data
+import sort_dictionary
 
 def print_vendor(vendor):
     print('------------------------------------------')
@@ -23,7 +24,7 @@ file_location = './data/FakeData.csv'
 weights = [1, 1, 4, 1]
 vendors = init_data.import_data(file_location, weights)
 
-sortedVendors = sorted(vendors.items(), key=operator.itemgetter(1), reverse=True)
+sortedVendors = sort_dictionary.sort_descending(vendors)
 
 for vendor in sortedVendors:
-    print(vendor[0], vendor[1].get_score())
+    print(vendor, sortedVendors[vendor].get_score())
