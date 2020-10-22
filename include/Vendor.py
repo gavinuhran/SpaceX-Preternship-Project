@@ -13,9 +13,9 @@ class Vendor:
         self.total_nonconforming_units = 0
         self.total_units_downstream_failure = 0
         self.total_cost_away_from_target = 0
-
+        
         self.total_orders_score = 0
-
+      
     # ADD ORDER
     # Parameters: List representation of order data
     def add_order(self, order, weights):
@@ -29,6 +29,7 @@ class Vendor:
         self.total_nonconforming_units += new_order.nonconforming_units
         self.total_units_downstream_failure += new_order.units_downstream_failure
         self.total_cost_away_from_target += new_order.cost_away_from_target
+        self.total_orders_score += new_order.score
 
         self.total_orders_score += new_order.score
 
@@ -36,7 +37,7 @@ class Vendor:
     # Parameters: 
     def get_num_orders(self):
         return len(self.orders)
-
+        
     # GET SCORE
     # Parameters: 
     def get_score(self):
@@ -67,11 +68,11 @@ class Vendor:
     def get_avg_cost_away_from_target(self):
         return self.total_cost_away_from_target / float(len(self.orders))
 
-	# GET THE TOTAL FAILURES FROM THE TOTAL ORDERS
-	# Parameters: None
+    # GET THE TOTAL FAILURES FROM THE TOTAL ORDERS
+  	# Parameters: None
     def get_total_avg_failure(self):
-        failures = self.get_avg_days_past_PO() + self.get_avg_nonconforming_units() + self.get_avg_units_downstream_failure() + self.get_avg_cost_away_from_target()
-        return failures
+        fails = self.get_avg_days_past_PO() + self.get_avg_nonconforming_units() + self.get_avg_units_downstream_failure() + self.get_avg_cost_away_from_target()
+        return fails
 
     # TO STRING
     # Parameters: 
