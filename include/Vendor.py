@@ -7,13 +7,14 @@ class Vendor:
     def __init__(self, name): 
         self.name = name
         self.orders = []
-        self.score = 0
 
         self.total_days_past_PO = 0
         self.total_lot_size = 0
         self.total_nonconforming_units = 0
         self.total_units_downstream_failure = 0
         self.total_cost_away_from_target = 0
+
+        self.total_orders_score = 0
 
     # TO STRING
     # Parameters: 
@@ -69,8 +70,8 @@ class Vendor:
     def get_avg_cost_away_from_target(self):
         return self.total_cost_away_from_target / float(len(self.orders))
 
-		# GET THE TOTAL FAILURES FROM THE TOTAL ORDERS
-		# Parameters: None
+	# GET THE TOTAL FAILURES FROM THE TOTAL ORDERS
+	# Parameters: None
     def get_total_avg_failure(self):
-				failures = self.get_avg_days_past_PO() + self.get_avg_nonconforming units() + self.get_avg_units_downstream_failure() + get_avg_cost_away_from_target()
-				return failures
+        failures = self.get_avg_days_past_PO() + self.get_avg_nonconforming units() + self.get_avg_units_downstream_failure() + self.get_avg_cost_away_from_target()
+		return failures
