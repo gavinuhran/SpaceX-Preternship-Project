@@ -1,5 +1,6 @@
 import sys
 import os
+import operator
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.join(BASE_DIR, 'include'))
@@ -22,5 +23,7 @@ file_location = './data/FakeData.csv'
 weights = [1, 1, 4, 1]
 vendors = init_data.import_data(file_location, weights)
 
-for vendor in vendors:
-    print_vendor(vendors[vendor])
+sortedVendors = sorted(vendors.items(), key=operator.itemgetter(1), reverse=True)
+
+for vendor in sortedVendors:
+    print(vendor[0], vendor[1].get_score())

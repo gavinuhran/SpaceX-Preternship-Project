@@ -77,3 +77,8 @@ class Vendor:
     # Parameters: 
     def __str__(self):
         return self.name + ' - Orders: ' + str(self.get_num_orders())
+
+    # LESS THAN OPERATOR
+    # Parameters:
+    def __lt__(self, other):
+        return self.get_score() < other.get_score()
