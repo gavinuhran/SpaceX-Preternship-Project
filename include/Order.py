@@ -15,7 +15,7 @@ class Order:
     # Parameters: float[4] -> days_past_PO weight, nonconforming weight, downstream fail weight, cost weight
 
     def get_score(self, weights):
-        return self.lot_size / float((weights[0])(1+self.days_past_PO) * ((weights[1])(self.nonconforming_units) + (weights[2])(self.units_downstream_failure)) * (weights[3])(100 + self.cost_away_from_target))
+        return self.lot_size / float((weights[0])*(1+self.days_past_PO) * ((weights[1])*(self.nonconforming_units) + (weights[2])*(self.units_downstream_failure)) * (weights[3])*(100 + self.cost_away_from_target))
 
     def __str__(self):
         return ('ORDER ' + str(self.order_number) + '\n'
@@ -23,5 +23,5 @@ class Order:
                 'Lot size:  ' + str(self.lot_size) + '\n'
                 'Nonconforming units:  ' + str(self.nonconforming_units) + '\n'
                 'Units resulting in downstream failure:  ' + str(self.units_downstream_failure) + '\n'
-                'Cost away from target (%):  ' + str(self.cost_away_from_target)
+                'Cost away from target (%):  ' + str(self.cost_away_from_target) + '\n'
                 'Score:  ' + str(self.score))

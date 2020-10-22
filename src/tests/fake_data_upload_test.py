@@ -19,7 +19,8 @@ def print_vendor(vendor):
 
 file_location = './data/FakeData.csv'
 
-vendors = init_data.import_data(file_location)
+weights = [1, 1, 4, 1]
+vendors = init_data.import_data(file_location, weights)
 
 for vendor in vendors:
     print_vendor(vendors[vendor])

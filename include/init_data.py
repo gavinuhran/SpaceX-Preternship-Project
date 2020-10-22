@@ -1,7 +1,7 @@
 import csv
 from Vendor import *
 
-def import_data(file_location):
+def import_data(file_location, weights):
     vendors = {}
     with open(file_location, 'r', encoding='utf-8-sig') as data:
         data_reader = csv.reader(data)
@@ -16,12 +16,14 @@ def import_data(file_location):
                 vendors[vendor_name] = vendor
 
             # Add order to vendor's order array
-            vendors[vendor_name].add_order(order_data)
+            vendors[vendor_name].add_order(order_data, weights)
 
     
     # print(vendors['A'])
 
     return vendors
 
+'''
 if __name__ == '__main__':
     main()
+'''

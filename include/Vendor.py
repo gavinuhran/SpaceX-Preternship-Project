@@ -16,27 +16,12 @@ class Vendor:
 
         self.total_orders_score = 0
 
-    # TO STRING
-    # Parameters: 
-    def __str__(self):
-        return self.name + ' - Number of orders: ' + str(self.get_num_orders())
-
-    # GET SCORE
-    # Parameters: 
-    def get_score(self):
-        return self.score
-
-    # GET NUM ORDERS
-    # Parameters: 
-    def get_num_orders(self):
-        return len(self.orders)
-
     # ADD ORDER
     # Parameters: List representation of order data
-    def add_order(self, order):
+    def add_order(self, order, weights):
         # Creates new order based on a list of order data
-        new_order = Order(self.get_num_orders(), order[0],
-                              order[1], order[2], order[3], order[4])
+        new_order = Order(self.get_num_orders() + 1, order[0],
+                              order[1], order[2], order[3], order[4], weights)
         self.orders.append(new_order)
 
         self.total_days_past_PO += new_order.days_past_PO
@@ -44,6 +29,18 @@ class Vendor:
         self.total_nonconforming_units += new_order.nonconforming_units
         self.total_units_downstream_failure += new_order.units_downstream_failure
         self.total_cost_away_from_target += new_order.cost_away_from_target
+
+        self.total_orders_score += new_order.score
+
+    # GET NUM ORDERS
+    # Parameters: 
+    def get_num_orders(self):
+        return len(self.orders)
+
+    # GET SCORE
+    # Parameters: 
+    def get_score(self):
+        return self.total_orders_score / float(self.get_num_orders())
 
     # GET AVERAGE DAYS PAST PO
     # Parameters: 
@@ -73,5 +70,10 @@ class Vendor:
 	# GET THE TOTAL FAILURES FROM THE TOTAL ORDERS
 	# Parameters: None
     def get_total_avg_failure(self):
-        failures = self.get_avg_days_past_PO() + self.get_avg_nonconforming units() + self.get_avg_units_downstream_failure() + self.get_avg_cost_away_from_target()
-		return failures
+        failures = self.get_avg_days_past_PO() + self.get_avg_nonconforming_units() + self.get_avg_units_downstream_failure() + self.get_avg_cost_away_from_target()
+        return failures
+
+    # TO STRING
+    # Parameters: 
+    def __str__(self):
+        return self.name + ' - Orders: ' + str(self.get_num_orders())
