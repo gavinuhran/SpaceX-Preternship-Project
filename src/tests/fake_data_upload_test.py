@@ -6,25 +6,18 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 sys.path.insert(0, os.path.join(BASE_DIR, 'include'))
 
 import init_data
-import sort_dictionary
-
-def print_vendor(vendor):
-    print('------------------------------------------')
-    print(vendor)
-    print('Score:  ' + str(vendor.get_score()))
-    print('Avg days past PO:  ' + str(vendor.get_avg_days_past_PO()))
-    print('Avg lot size:  ' + str(vendor.get_avg_lot_size()))
-    print('Avg nonconforming units:  ' + str(vendor.get_avg_nonconforming_units()))
-    print('Avg units downstream failure:  ' + str(vendor.get_avg_units_downstream_failure()))
-    print('Avg cost away from target (%):  ' + str(vendor.get_avg_cost_away_from_target()))
-
+import dictionary_functions
 
 file_location = './data/FakeData.csv'
 
-weights = [1, 1, 4, 1]
-vendors = init_data.import_data(file_location, weights)
+def rank_vendors(w1, w2, w3, w4):
+    weights = [w1, w2, w3, w4]
+    vendors = init_data.import_data(file_location, weights)
 
-sortedVendors = sort_dictionary.sort_descending(vendors)
+    sortedVendors = dictionary_functions.sort_descending(vendors)
+    normalizing_value = dictionary_functions.get_max_score(sortedVendors)
 
-for vendor in sortedVendors:
-    print(vendor, sortedVendors[vendor].get_score())
+    for vendor in sortedVendors:
+        print(vendor, "{:.5f}".format(sortedVendors[vendor].get_score() / normalizing_value))
+
+rank_vendors(1, 1, 4, 1)
