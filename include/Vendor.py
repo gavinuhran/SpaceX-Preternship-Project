@@ -1,3 +1,4 @@
+import math
 from Order import *
 
 class Vendor:
@@ -39,7 +40,10 @@ class Vendor:
     # GET SCORE
     # Parameters: 
     def get_score(self):
-        return 100 * self.total_orders_score / float(self.get_num_orders())
+        # Must subtract an average score to make the equation zero-centered
+        x = self.total_orders_score - 1.75
+        return 1 / (1 + math.exp(-x))
+
 
     # GET AVERAGE DAYS PAST PO
     # Parameters: 
