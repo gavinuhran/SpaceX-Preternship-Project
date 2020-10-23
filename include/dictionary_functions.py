@@ -15,3 +15,10 @@ def sort_ascending(dictionary):
 def sort_descending(dictionary):
     descending_tuples = sorted(dictionary.items(), key=operator.itemgetter(1), reverse=True)
     return convert_tuples_to_dict(descending_tuples)
+
+def get_max_score(descending_dictionary):
+    max = None
+    for key in descending_dictionary:
+        max = descending_dictionary[key].get_score()
+        break
+    return max

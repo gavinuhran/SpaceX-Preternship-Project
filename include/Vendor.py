@@ -31,8 +31,6 @@ class Vendor:
         self.total_cost_away_from_target += new_order.cost_away_from_target
         self.total_orders_score += new_order.score
 
-        self.total_orders_score += new_order.score
-
     # GET NUM ORDERS
     # Parameters: 
     def get_num_orders(self):
@@ -41,7 +39,7 @@ class Vendor:
     # GET SCORE
     # Parameters: 
     def get_score(self):
-        return self.total_orders_score / float(self.get_num_orders())
+        return 100 * self.total_orders_score / float(self.get_num_orders())
 
     # GET AVERAGE DAYS PAST PO
     # Parameters: 
