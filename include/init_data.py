@@ -1,9 +1,16 @@
 import csv
 from Vendor import *
+from xlsx_to_csv import *
+import os
 
-def import_data(file_location, weights):
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DATA_DIR = os.path.join(BASE_DIR, 'data')
+
+def import_data(file_name, weights):
+    csv_from_excel(file_name)
+
     vendors = {}
-    with open(file_location, 'r', encoding='utf-8-sig') as data:
+    with open(os.path.join(DATA_DIR, file_name + '.csv'), 'r', encoding='utf-8-sig') as data:
         data_reader = csv.reader(data)
         for row in data_reader:
             # Converts data to proper data types (ints and float for numeric data)

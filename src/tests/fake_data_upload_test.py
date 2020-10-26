@@ -8,11 +8,11 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'include'))
 import init_data
 import dictionary_functions
 
-file_location = './data/FakeData.csv'
+file_name = 'FakeData'
 
 def rank_vendors(w1, w2, w3, w4):
     weights = [w1, w2, w3, w4]
-    vendors = init_data.import_data(file_location, weights)
+    vendors = init_data.import_data(file_name, weights)
 
     sortedVendors = dictionary_functions.sort_descending(vendors)
     normalizing_value = dictionary_functions.get_max_score(sortedVendors)
