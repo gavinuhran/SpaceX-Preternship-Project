@@ -2,13 +2,20 @@
 
 # Run this app with `python app.py` and
 # visit http://127.0.0.1:8050/ in your web browser.
-from init_data import *
+
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
 import plotly.express as px
 import plotly.io as pio
 import pandas as pd
+import os
+import sys
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(BASE_DIR, 'include'))
+
+from init_data import *
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -21,7 +28,7 @@ colors = {
 
 weights = [1,1,1,1,1]
 
-data = import_data("FakeData.csv", weights)
+data = import_data("FakeData", weights)
 
 scores = []
 for vendor in data.keys():
