@@ -21,7 +21,7 @@ weights = [1, 1, 4, 1]
 vendor_dictionary = init_data.import_data(filename, weights)
 
 sorted_vendors, sorted_scores = dictionary_functions.get_all_scores(vendor_dictionary)
-sorted_score_data = dict(Vendor=sorted_vendors, Score=sorted_scores)
+sorted_score_data = dict(Vendor=list(sorted_vendors), Score=sorted_scores)
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__)
