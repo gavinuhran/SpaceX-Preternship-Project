@@ -14,8 +14,57 @@ import plotly.express as px
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(BASE_DIR, 'include'))
 
-import init_data
-import dictionary_functions
+from init_data import *
+from dictionary_functions import *
+
+
+# SET GLOBAL VARIABLES
+filename = 'FakeData'
+weights = None
+vendor_dictionary = None
+sorted_vendors = None
+sorted_scores = None
+sorted_score_data = None
+
+
+# LOAD DATA
+def load_data(weight3):
+    global weights, vendor_dictionary, sorted_vendors, sorted_scores, sorted_score_data
+    weights = [1, 1, weight3, 1]
+    vendor_dictionary = import_data(filename, weights)
+    sorted_vendors, sorted_scores = get_all_scores(vendor_dictionary)
+    sorted_score_data = dict(Vendor=list(sorted_vendors), Score=sorted_scores)
+
+
+# LOAD INITIAL DATA
+load_data(4)
+
+
+# LOAD GRAPH
+def load_graph(weight3):
+    # Load data from file
+    load_data(weight3)
+
+    # Create new figure
+    sorted_score_fig = px.bar(sorted_score_data, x='Score', y='Vendor', orientation='h')
+    sorted_score_fig.update_xaxes(range=[0, 1])
+    return sorted_score_fig
+
+
+# GENERATE TABLE
+def generate_table():
+    return html.Table([
+        html.Thead(
+            html.Tr([html.Th(col) for col in list(sorted_vendors)])
+        ),
+        html.Tbody([
+            html.Tr([
+                html.Td(vendor_dictionary[name].name),
+                html.Td(sorted_scores[i])
+            ])for i, name in enumerate(list(vendor_dictionary.keys()))
+        ])
+    ])
+
 
 # APP CODE
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -25,27 +74,6 @@ colors = {
 }
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-
-def load_graph(value):
-    # Load data from file
-    filename = 'FakeData'
-    weights = [1, 1, value, 1]
-    vendor_dictionary = init_data.import_data(filename, weights)
-
-    sorted_vendors, sorted_scores = dictionary_functions.get_all_scores(vendor_dictionary)
-    sorted_score_data = dict(Vendor=list(sorted_vendors), Score=sorted_scores)
-
-    sorted_score_fig = px.bar(sorted_score_data, x='Score', y='Vendor', orientation='h')
-    sorted_score_fig.update_xaxes(range=[0, 1])
-    return sorted_score_fig
-
-'''
-sorted_score_fig.update_layout(
-    plot_bgcolor=colors['background'],
-    paper_bgcolor=colors['background'],
-    font_color=colors['text']
-)
-'''
 
 
 # APP LAYOUT
@@ -101,6 +129,8 @@ app.layout = html.Div(
             html.Div(id='slider-output-container')
         ]
     ),
+
+    generate_table()
 ])
 
 @app.callback(
