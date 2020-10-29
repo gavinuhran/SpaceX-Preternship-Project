@@ -13,4 +13,4 @@ def xlsx_to_csv(sheet_name):
     read_file = pd.read_excel(os.path.join(DATA_DIR, sheet_name + '.xlsx'))
 
     # Write the dataframe object into csv file
-    read_file.to_csv('../data/' + sheet_name + '.csv', index = None, header = False, float_format = '%.2f%%') 
+    read_file.to_csv('data/' + sheet_name + '.csv', index = None, header = False, float_format = '%.2f%%') 

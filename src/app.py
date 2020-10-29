@@ -37,7 +37,6 @@ def load_data(weight1, weight2, weight3, weight4):
     vendor_dictionary = import_data(filename, weights)
     sorted_vendors, sorted_scores = get_all_scores(vendor_dictionary)
     sorted_score_data = {'Vendor' : list(sorted_vendors), 'Score': sorted_scores}
-    #sorted_score_data = dict(Vendor=list(sorted_vendors), Score=sorted_scores)
 
 
 # LOAD GRAPH
@@ -46,8 +45,9 @@ def load_graph(weight1, weight2, weight3, weight4):
     load_data(weight1, weight2, weight3, weight4)
 
     # Create new figure
-    sorted_score_fig = px.bar(sorted_score_data, x='Vendor', y='Score')
-    sorted_score_fig.update_yaxes(range=[0, 100])
+    sorted_score_fig = px.bar(sorted_score_data, x='Score', y='Vendor', orientation='h')
+    sorted_score_fig.update_xaxes(range=[0, 1])
+    sorted_score_fig.layout.margin = dict(l=10, r=10, t=10, b=10)
     return sorted_score_fig
 
 
@@ -92,158 +92,113 @@ app.layout = html.Div(
         children=[
             dcc.Graph(
                 id='sorted-scores',
+                className='box',
+                style={
+                    'border-radius': '10px'
+                },
                 figure=load_graph(1,1,1,1)
             ),
-        ]
-    ),
+            html.Div(
+                id='slider-box',
+                className='box',
+                children=[
+                    html.Div(
+                        className='sliders',
+                        style={
+                            'width': 150
+                        },
+                        children=[
+                            'Days Past PO',
+                            dcc.Slider(
+                                id='my-slider1',
+                                min=1,
+                                max=10,
+                                step=0.5,
+                                value=1,
+                                marks={
+                                    1: '1',
+                                    2: '2',
+                                    3: '3',
+                                    4: '4',
+                                    5: '5',
+                                    6: '6',
+                                    7: '7',
+                                    8: '8',
+                                    9: '9',
+                                    10: '10',
+                                },
+                                included=False,
+                            ),
 
-    html.Div(
-        children='Variable weight for Days Past PO',
-        style={
-            'textAlign': 'left',
-        }
-    ),
+                            'Non-conforming Units',
+                            dcc.Slider(
+                                id='my-slider2',
+                                min=1,
+                                max=10,
+                                step=0.5,
+                                value=1,
+                                marks={
+                                    1: '1',
+                                    2: '2',
+                                    3: '3',
+                                    4: '4',
+                                    5: '5',
+                                    6: '6',
+                                    7: '7',
+                                    8: '8',
+                                    9: '9',
+                                    10: '10',
+                                },
+                                included=False,
+                            ),
 
-    html.Div(
-        className='slider1',
-        style={
-            'width': 500,
-        },
-        children=[
-            dcc.Slider(
-                id='my-slider1',
-                min=1,
-                max=10,
-                step=0.5,
-                value=4,
-                marks={
-                    0: {'label': '0', 'style': {'color': '#f50'}},
-                    1: '1',
-                    2: '2',
-                    3: '3',
-                    4: '4',
-                    5: '5',
-                    6: '6',
-                    7: '7',
-                    8: '8',
-                    9: '9',
-                    10: '10',
-                },
-                included=False,
+                            'Downstream Failures',
+                            dcc.Slider(
+                                id='my-slider3',
+                                min=1,
+                                max=10,
+                                step=0.5,
+                                value=4,
+                                marks={
+                                    1: '1',
+                                    2: '2',
+                                    3: '3',
+                                    4: '4',
+                                    5: '5',
+                                    6: '6',
+                                    7: '7',
+                                    8: '8',
+                                    9: '9',
+                                    10: '10',
+                                },
+                                included=False,
+                            ),
+
+                            'Cost Difference from Target',
+                            dcc.Slider(
+                                id='my-slider4',
+                                min=1,
+                                max=10,
+                                step=0.5,
+                                value=1,
+                                marks={
+                                    1: '1',
+                                    2: '2',
+                                    3: '3',
+                                    4: '4',
+                                    5: '5',
+                                    6: '6',
+                                    7: '7',
+                                    8: '8',
+                                    9: '9',
+                                    10: '10',
+                                },
+                                included=False,
+                            ),
+                        ]
+                    )
+                ]
             ),
-
-            html.Div(id='slider-output-container')
-        ]
-    ),
-    html.Div(
-        children='Variable weight for Non-Conforming Units',
-        style={
-            'textAlign': 'left',
-        }
-    ),
-    html.Div(
-        className='slider2',
-        style={
-            'width': 500,
-        },
-        children=[
-            dcc.Slider(
-                id='my-slider2',
-                min=1,
-                max=10,
-                step=0.5,
-                value=4,
-                marks={
-                    0: {'label': '0', 'style': {'color': '#f50'}},
-                    1: '1',
-                    2: '2',
-                    3: '3',
-                    4: '4',
-                    5: '5',
-                    6: '6',
-                    7: '7',
-                    8: '8',
-                    9: '9',
-                    10: '10',
-                },
-                included=False,
-            ),
-
-            html.Div(id='slider-output-container2')
-        ]
-    ),
-    html.Div(
-        children='Variable weight for Unit Failure Downstream',
-        style={
-            'textAlign': 'left',
-        }
-    ),
-    html.Div(
-        className='slider3',
-        style={
-            'width': 500,
-        },
-        children=[
-            dcc.Slider(
-                id='my-slider3',
-                min=1,
-                max=10,
-                step=0.5,
-                value=4,
-                marks={
-                    0: {'label': '0', 'style': {'color': '#f50'}},
-                    1: '1',
-                    2: '2',
-                    3: '3',
-                    4: '4',
-                    5: '5',
-                    6: '6',
-                    7: '7',
-                    8: '8',
-                    9: '9',
-                    10: '10',
-                },
-                included=False,
-            ),
-
-            html.Div(id='slider-output-container3')
-        ]
-    ),
-    html.Div(
-        children='Variable weight for cost away from target',
-        style={
-            'textAlign': 'left',
-        }
-    ),
-    html.Div(
-        className='slider4',
-        style={
-            'width': 500,
-        },
-        children=[
-            dcc.Slider(
-                id='my-slider4',
-                min=1,
-                max=10,
-                step=0.5,
-                value=4,
-                marks={
-                    0: {'label': '0', 'style': {'color': '#f50'}},
-                    1: '1',
-                    2: '2',
-                    3: '3',
-                    4: '4',
-                    5: '5',
-                    6: '6',
-                    7: '7',
-                    8: '8',
-                    9: '9',
-                    10: '10',
-                },
-                included=False,
-            ),
-
-            html.Div(id='slider-output-container4')
         ]
     ),
 
