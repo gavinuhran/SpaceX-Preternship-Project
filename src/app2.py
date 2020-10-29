@@ -28,15 +28,15 @@ colors = {
 
 weights = [1,1,1,1,1]
 
-data = import_data("FakeData", weights)
+vendor_dictionary = import_data("FakeData", weights)
 
 scores = []
-for vendor in data.keys():
-    val = data[vendor].get_score()
+for vendor in vendor_dictionary.keys():
+    val = vendor_dictionary[vendor].get_score()
     val = val * 100
     scores.append(val)
 
-scores_dict = {'Vendor_Name' : list(data.keys()), 'Vendor_Scores' : scores}
+scores_dict = {'Vendor_Name' : list(vendor_dictionary.keys()), 'Vendor_Scores' : scores}
 
 fig = px.bar(scores_dict, x='Vendor_Name', y = 'Vendor_Scores')
 
@@ -54,9 +54,9 @@ def generate_table():
         ),
         html.Tbody([
             html.Tr([
-                html.Td(data[name].name),
+                html.Td(vendor_dictionary[name].name),
                 html.Td(scores[i])
-            ])for i, name in enumerate(list(data.keys()))
+            ])for i, name in enumerate(list(vendor_dictionary.keys()))
         ])
     ])
 

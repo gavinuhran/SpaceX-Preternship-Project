@@ -20,6 +20,7 @@ from dictionary_functions import *
 
 # SET GLOBAL VARIABLES
 filename = 'FakeData'
+
 weights = None
 vendor_dictionary = None
 sorted_vendors = None
@@ -33,11 +34,8 @@ def load_data(weight3):
     weights = [1, 1, weight3, 1]
     vendor_dictionary = import_data(filename, weights)
     sorted_vendors, sorted_scores = get_all_scores(vendor_dictionary)
-    sorted_score_data = dict(Vendor=list(sorted_vendors), Score=sorted_scores)
-
-
-# LOAD INITIAL DATA
-load_data(4)
+    sorted_score_data = {'Vendor' : list(sorted_vendors), 'Score': sorted_scores}
+    #sorted_score_data = dict(Vendor=list(sorted_vendors), Score=sorted_scores)
 
 
 # LOAD GRAPH
@@ -46,8 +44,8 @@ def load_graph(weight3):
     load_data(weight3)
 
     # Create new figure
-    sorted_score_fig = px.bar(sorted_score_data, x='Score', y='Vendor', orientation='h')
-    sorted_score_fig.update_xaxes(range=[0, 1])
+    sorted_score_fig = px.bar(sorted_score_data, x='Vendor', y='Score')
+    sorted_score_fig.update_yaxes(range=[0, 100])
     return sorted_score_fig
 
 
@@ -55,7 +53,7 @@ def load_graph(weight3):
 def generate_table():
     return html.Table([
         html.Thead(
-            html.Tr([html.Th(col) for col in list(sorted_vendors)])
+            html.Tr([html.Th(col) for col in list(sorted_score_data.keys())])
         ),
         html.Tbody([
             html.Tr([
@@ -98,7 +96,8 @@ app.layout = html.Div(
         className='row',
         children=[
             dcc.Graph(
-                id='sorted-scores'
+                id='sorted-scores',
+                figure=load_graph(4)
             ),
         ]
     ),
@@ -114,7 +113,7 @@ app.layout = html.Div(
                 min=0,
                 max=5,
                 step=0.5,
-                value=1,
+                value=4,
                 marks={
                     0: {'label': '0', 'style': {'color': '#f50'}},
                     1: '1',
