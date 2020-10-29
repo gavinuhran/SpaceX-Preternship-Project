@@ -10,22 +10,12 @@ import dash_html_components as html
 import plotly.express as px
 
 
-# Imports functions and classes from include/ 
+# Imports functions and classes from include/
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(BASE_DIR, 'include'))
 
 import init_data
 import dictionary_functions
-
-
-# Load data from file
-filename = 'FakeData'
-weights = [1, 1, 4, 1]
-vendor_dictionary = init_data.import_data(filename, weights)
-
-sorted_vendors, sorted_scores = dictionary_functions.get_all_scores(vendor_dictionary)
-sorted_score_data = dict(Vendor=list(sorted_vendors), Score=sorted_scores)
-
 
 # APP CODE
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -36,8 +26,18 @@ colors = {
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
-sorted_score_fig = px.bar(sorted_score_data, x='Score', y='Vendor', orientation='h')
-sorted_score_fig.update_xaxes(range=[0, 1])
+def load_graph(value):
+    # Load data from file
+    filename = 'FakeData'
+    weights = [1, 1, value, 1]
+    vendor_dictionary = init_data.import_data(filename, weights)
+
+    sorted_vendors, sorted_scores = dictionary_functions.get_all_scores(vendor_dictionary)
+    sorted_score_data = dict(Vendor=list(sorted_vendors), Score=sorted_scores)
+
+    sorted_score_fig = px.bar(sorted_score_data, x='Score', y='Vendor', orientation='h')
+    sorted_score_fig.update_xaxes(range=[0, 1])
+    return sorted_score_fig
 
 '''
 sorted_score_fig.update_layout(
@@ -50,7 +50,7 @@ sorted_score_fig.update_layout(
 
 # APP LAYOUT
 app.layout = html.Div(
-    
+
     [
     html.H3(
         children='SpaceX Dashboard',
@@ -70,8 +70,7 @@ app.layout = html.Div(
         className='row',
         children=[
             dcc.Graph(
-                id='sorted-scores',
-                figure=sorted_score_fig
+                id='sorted-scores'
             ),
         ]
     ),
@@ -105,10 +104,10 @@ app.layout = html.Div(
 ])
 
 @app.callback(
-    dash.dependencies.Output('slider-output-container', 'children'),
+    dash.dependencies.Output('sorted-scores', 'figure'),
     [dash.dependencies.Input('my-slider', 'value')])
 def update_output(value):
-    return 'You have selected "{}"'.format(value)
+    return load_graph(value)
 
 if __name__ == '__main__':
     app.run_server(debug=True)
