@@ -5,8 +5,10 @@ import sys
 
 # Dash components
 import dash
+import dash_table
 import dash_core_components as dcc
 import dash_html_components as html
+import plotly.graph_objects as go
 import plotly.express as px
 
 
@@ -29,40 +31,33 @@ sorted_score_data = None
 
 
 # LOAD DATA
-def load_data(weight3):
+def load_data(weight1, weight2, weight3, weight4):
     global weights, vendor_dictionary, sorted_vendors, sorted_scores, sorted_score_data
-    weights = [1, 1, weight3, 1]
+    weights = [weight1, weight2, weight3, weight4]
     vendor_dictionary = import_data(filename, weights)
     sorted_vendors, sorted_scores = get_all_scores(vendor_dictionary)
     sorted_score_data = {'Vendor' : list(sorted_vendors), 'Score': sorted_scores}
-    #sorted_score_data = dict(Vendor=list(sorted_vendors), Score=sorted_scores)
 
 
 # LOAD GRAPH
-def load_graph(weight3):
+def load_graph(weight1, weight2, weight3, weight4):
     # Load data from file
-    load_data(weight3)
+    load_data(weight1, weight2, weight3, weight4)
 
     # Create new figure
-    sorted_score_fig = px.bar(sorted_score_data, x='Vendor', y='Score')
-    sorted_score_fig.update_yaxes(range=[0, 100])
+    sorted_score_fig = px.bar(sorted_score_data, x='Score', y='Vendor', orientation='h')
+    sorted_score_fig.update_xaxes(range=[0, 1])
+    sorted_score_fig.layout.margin = dict(l=10, r=10, t=10, b=10)
+    
     return sorted_score_fig
 
 
 # GENERATE TABLE
 def generate_table():
-    return html.Table([
-        html.Thead(
-            html.Tr([html.Th(col) for col in list(sorted_score_data.keys())])
-        ),
-        html.Tbody([
-            html.Tr([
-                html.Td(vendor_dictionary[name].name),
-                html.Td(sorted_scores[i])
-            ])for i, name in enumerate(list(vendor_dictionary.keys()))
-        ])
-    ])
-
+    fig = go.Figure(data=[go.Table(header=dict(values=['Vendor', 'Scores']),
+                 cells=dict(values=[list(sorted_score_data['Vendor']), sorted_scores]))
+                     ])
+    return fig
 
 # APP CODE
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -72,7 +67,6 @@ colors = {
 }
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-
 
 # APP LAYOUT
 app.layout = html.Div(
@@ -97,46 +91,137 @@ app.layout = html.Div(
         children=[
             dcc.Graph(
                 id='sorted-scores',
-                figure=load_graph(4)
+                className='box',
+                style={
+                    'border-radius': '10px'
+                },
+                figure=load_graph(1,1,1,1)
+            ),
+            html.Div(
+                id='slider-box',
+                className='box',
+                children=[
+                    html.Div(
+                        className='sliders',
+                        style={
+                            'width': 150
+                        },
+                        children=[
+                            'Days Past PO',
+                            dcc.Slider(
+                                id='my-slider1',
+                                min=1,
+                                max=10,
+                                step=0.5,
+                                value=1,
+                                marks={
+                                    1: '1',
+                                    2: '2',
+                                    3: '3',
+                                    4: '4',
+                                    5: '5',
+                                    6: '6',
+                                    7: '7',
+                                    8: '8',
+                                    9: '9',
+                                    10: '10',
+                                },
+                                included=False,
+                            ),
+
+                            'Non-conforming Units',
+                            dcc.Slider(
+                                id='my-slider2',
+                                min=1,
+                                max=10,
+                                step=0.5,
+                                value=1,
+                                marks={
+                                    1: '1',
+                                    2: '2',
+                                    3: '3',
+                                    4: '4',
+                                    5: '5',
+                                    6: '6',
+                                    7: '7',
+                                    8: '8',
+                                    9: '9',
+                                    10: '10',
+                                },
+                                included=False,
+                            ),
+
+                            'Downstream Failures',
+                            dcc.Slider(
+                                id='my-slider3',
+                                min=1,
+                                max=10,
+                                step=0.5,
+                                value=4,
+                                marks={
+                                    1: '1',
+                                    2: '2',
+                                    3: '3',
+                                    4: '4',
+                                    5: '5',
+                                    6: '6',
+                                    7: '7',
+                                    8: '8',
+                                    9: '9',
+                                    10: '10',
+                                },
+                                included=False,
+                            ),
+
+                            'Cost Difference from Target',
+                            dcc.Slider(
+                                id='my-slider4',
+                                min=1,
+                                max=10,
+                                step=0.5,
+                                value=1,
+                                marks={
+                                    1: '1',
+                                    2: '2',
+                                    3: '3',
+                                    4: '4',
+                                    5: '5',
+                                    6: '6',
+                                    7: '7',
+                                    8: '8',
+                                    9: '9',
+                                    10: '10',
+                                },
+                                included=False,
+                            ),
+                        ]
+                    )
+                ]
             ),
         ]
     ),
 
     html.Div(
-        className='slider1',
-        style={
-            'width': 500,
-        },
+        className='data-table',
         children=[
-            dcc.Slider(
-                id='my-slider',
-                min=0,
-                max=5,
-                step=0.5,
-                value=4,
-                marks={
-                    0: {'label': '0', 'style': {'color': '#f50'}},
-                    1: '1',
-                    2: '2',
-                    3: '3',
-                    4: '4',
-                    5: '5',
-                },
-                included=False,
+            dcc.Graph(
+                id='sorted-score-table',
+                figure= generate_table()
             ),
-
-            html.Div(id='slider-output-container')
         ]
     ),
-
-    generate_table()
 ])
 
+#Update Graph Values
 @app.callback(
-    dash.dependencies.Output('sorted-scores', 'figure'),
-    [dash.dependencies.Input('my-slider', 'value')])
-def update_output(value):
-    return load_graph(value)
+    [dash.dependencies.Output('sorted-scores', 'figure'),
+    dash.dependencies.Output('sorted-score-table', 'figure')],
+    [dash.dependencies.Input('my-slider1', 'value'),
+    dash.dependencies.Input('my-slider2', 'value'),
+    dash.dependencies.Input('my-slider3', 'value'),
+    dash.dependencies.Input('my-slider4', 'value')])
+def update_output(value1, value2, value3, value4,):
+    return load_graph(value1, value2, value3, value4), generate_table()
 
 if __name__ == '__main__':
     app.run_server(debug=True)

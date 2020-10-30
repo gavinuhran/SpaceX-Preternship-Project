@@ -4,23 +4,39 @@ body {
 }
 
 .row {
-    height: 100%;
-    margin: none;
-    padding: none;
     display: flex;
     flex-direction: row;
-    flex-wrap: nowrap;
+    align-items: center;
+}
+
+.box {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 2px 2px 2px #b1adad;
+    height: 50vh;
+    display: flex;
+    align-items: center;
+}
+
+#slider-box {
+    margin: 0 2vw;
+    padding: 0 2vw;
 }
 
 #sorted-scores {
-    width: 60%;
-    background-color: white;
-    border-radius: 10px;
-    padding: 5px;
-    box-shadow: 2px 2px 2px #b1adad;
+    width: 50vw;
+    height: 50vh;
 }
 
-/* Hide control bar
+#sorted-scores .main-svg {
+    border-radius: 10px;
+}
+
+.sliders {
+    text-align: center;
+}
+
+/* Hide control bar */
 .modebar {
     display: none !important;
-}*/
+}
