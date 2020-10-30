@@ -44,18 +44,21 @@ def load_data(weight1, weight2, weight3, weight4):
 
 
 # PARSE UPLOAD FILE
-def parse_contents(contents, filename, date):
-    content_type, content_string = contents.split(',')
+def parse_contents(contents, data_name, date):
+    global filename
 
+    content_type, content_string = contents.split(',')
     decoded = base64.b64decode(content_string)
+
     try:
-        if 'csv' in filename:
+        if 'csv' in data_name:
             # Assume that the user uploaded a CSV file
             df = pd.read_csv(contents)
-        elif 'xls' in filename:
+        elif 'xls' in data_name:
             # Assume that the user uploaded an excel file
             read_file = pd.read_excel(io.BytesIO(decoded))
-            read_file.to_csv('data/' + filename[:len(filename)-5] + '.csv', index = None, header = False, float_format = '%.2f%%') 
+            read_file.to_csv('data/' + data_name[:len(data_name)-5] + '.csv', index = None, header = False, float_format = '%.2f%%') 
+            filename = data_name[:len(data_name)-5]
     except Exception as e:
         print(e)
         return html.Div([
@@ -274,19 +277,21 @@ app.layout = html.Div(
     dash.dependencies.Input('my-slider2', 'value'),
     dash.dependencies.Input('my-slider3', 'value'),
     dash.dependencies.Input('my-slider4', 'value')])
-def update_output(value1, value2, value3, value4,):
+def update_output(value1, value2, value3, value4):
     return load_graph(value1, value2, value3, value4), generate_table()
 
 # Load File
-@app.callback(dash.dependencies.Output('output-data-upload', 'children'),
-              [dash.dependencies.Input('upload-data', 'contents')],
-              [dash.dependencies.State('upload-data', 'filename'),
-               dash.dependencies.State('upload-data', 'last_modified')])
+@app.callback(
+    dash.dependencies.Output('output-data-upload', 'children'),
+    [dash.dependencies.Input('upload-data', 'contents'),
+    dash.dependencies.State('upload-data', 'filename'),
+    dash.dependencies.State('upload-data', 'last_modified')])
 def upload_data(list_of_contents, list_of_names, list_of_dates):
     if list_of_contents is not None:
         children = [
             parse_contents(c, n, d) for c, n, d in
             zip(list_of_contents, list_of_names, list_of_dates)]
+        update_output(weights[0], weights[1], weights[2], weights[3])
         return children
 
 if __name__ == '__main__':
