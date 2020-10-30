@@ -45,7 +45,9 @@ def load_graph(weight1, weight2, weight3, weight4):
     load_data(weight1, weight2, weight3, weight4)
 
     # Create new figure
-    sorted_score_fig = px.bar(sorted_score_data, x='Score', y='Vendor', orientation='h')
+    sorted_score_fig = px.bar(sorted_score_data, x='Score', y='Vendor',
+                              orientation='h', text='Score')
+    sorted_score_fig.update_traces(texttemplate='%{text:,.3%}')
     sorted_score_fig.update_xaxes(range=[0, 1])
     sorted_score_fig.layout.margin = dict(l=10, r=10, t=10, b=10)
     
@@ -57,6 +59,7 @@ def generate_table():
     fig = go.Figure(data=[go.Table(header=dict(values=['Vendor', 'Scores']),
                  cells=dict(values=[list(sorted_score_data['Vendor']), sorted_scores]))
                      ])
+    fig.layout.margin = dict(l=10, r=10, t=10, b=10)
     return fig
 
 # APP CODE
@@ -202,14 +205,19 @@ app.layout = html.Div(
     ),
 
     html.Div(
-        className='data-table',
+        className='row',
         children=[
-            dcc.Graph(
-                id='sorted-score-table',
-                figure= generate_table()
+            html.Div(
+                className='data-table box',
+                children=[
+                    dcc.Graph(
+                        id='sorted-score-table',
+                        figure=generate_table()
+                    ),
+                ]
             ),
         ]
-    ),
+    )
 ])
 
 #Update Graph Values

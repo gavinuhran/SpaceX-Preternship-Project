@@ -7,13 +7,13 @@ body {
     display: flex;
     flex-direction: row;
     align-items: center;
+    margin: 2vh 0;
 }
 
 .box {
     background-color: white;
     border-radius: 10px;
     box-shadow: 2px 2px 2px #b1adad;
-    height: 50vh;
     display: flex;
     align-items: center;
 }
@@ -21,6 +21,7 @@ body {
 #slider-box {
     margin: 0 2vw;
     padding: 0 2vw;
+    height: 50vh;
 }
 
 #sorted-scores {
@@ -29,6 +30,10 @@ body {
 }
 
 #sorted-scores .main-svg {
+    border-radius: 10px;
+}
+
+.data-table .main-svg {
     border-radius: 10px;
 }
 

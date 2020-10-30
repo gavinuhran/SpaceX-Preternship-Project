@@ -25,6 +25,6 @@ def get_max_score(descending_dictionary):
 
 def get_all_scores(dictionary):
     sorted_dictionary = sort_ascending(dictionary)
-    scores = [dictionary[i].get_score() * 100 for i in sorted_dictionary.keys()]
+    scores = [dictionary[i].get_score() for i in sorted_dictionary.keys()]
 
     return sorted_dictionary.keys(), scores
