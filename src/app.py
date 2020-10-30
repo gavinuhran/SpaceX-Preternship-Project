@@ -48,6 +48,7 @@ def load_graph(weight1, weight2, weight3, weight4):
     sorted_score_fig = px.bar(sorted_score_data, x='Score', y='Vendor', orientation='h')
     sorted_score_fig.update_xaxes(range=[0, 1])
     sorted_score_fig.layout.margin = dict(l=10, r=10, t=10, b=10)
+    
     return sorted_score_fig
 
 
@@ -58,7 +59,6 @@ def generate_table():
                      ])
     return fig
 
-
 # APP CODE
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 colors = {
@@ -67,7 +67,6 @@ colors = {
 }
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-
 
 # APP LAYOUT
 app.layout = html.Div(
@@ -223,7 +222,6 @@ app.layout = html.Div(
     dash.dependencies.Input('my-slider4', 'value')])
 def update_output(value1, value2, value3, value4,):
     return load_graph(value1, value2, value3, value4), generate_table()
-
 
 if __name__ == '__main__':
     app.run_server(debug=True)
