@@ -41,8 +41,9 @@ class Vendor:
     # Parameters: 
     def get_score(self):
         # Must subtract an average score to make the equation zero-centered
-        x = self.total_orders_score - 1.75
-        return 1 / (1 + math.exp(-x))
+        # x = self.total_orders_score - 1.75
+        # return 1 / (1 + math.exp(-x))
+        return self.total_orders_score / self.get_num_orders()
 
 
     # GET AVERAGE DAYS PAST PO

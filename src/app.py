@@ -46,7 +46,7 @@ def load_data(weight1, weight2, weight3, weight4):
 # PARSE UPLOAD FILE
 def parse_contents(contents, file_name):
     global filename
-    filename = file_name
+    filename = file_name[:len(file_name)-5]
     content_type, content_string = contents.split(',')
     decoded = base64.b64decode(content_string)
 
@@ -140,7 +140,7 @@ app.layout = html.Div(
                     html.Div(
                         className='sliders',
                         style={
-                            'width': 150
+                            'width': 400
                         },
                         children=[
                             'Days Past PO',
