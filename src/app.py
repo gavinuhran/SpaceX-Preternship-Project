@@ -44,27 +44,33 @@ def load_data(weight1, weight2, weight3, weight4):
 
 
 # PARSE UPLOAD FILE
-def parse_contents(contents, data_name, date):
+def parse_contents(contents, file_name):
     global filename
-
+    filename = file_name
     content_type, content_string = contents.split(',')
     decoded = base64.b64decode(content_string)
 
     try:
-        if 'csv' in data_name:
+        if 'csv' in file_name:
             # Assume that the user uploaded a CSV file
             df = pd.read_csv(contents)
-        elif 'xls' in data_name:
+        elif 'xlsx' in file_name:
             # Assume that the user uploaded an excel file
             read_file = pd.read_excel(io.BytesIO(decoded))
-            read_file.to_csv('data/' + data_name[:len(data_name)-5] + '.csv', index = None, header = False, float_format = '%.2f%%') 
-            filename = data_name[:len(data_name)-5]
+            read_file.to_csv('data/' + filename + '.csv', index = None, header = False, float_format = '%.2f%%')
     except Exception as e:
         print(e)
         return html.Div([
             'There was an error processing this file.'
         ])
 
+#Update the data input based on the upload file
+def upload_data(list_of_contents, file_name):
+    if list_of_contents is not None:
+        children = [
+            parse_contents(c, n) for c, n in
+            zip(list_of_contents, file_name)]
+        return children
 
 # LOAD GRAPH
 def load_graph(weight1, weight2, weight3, weight4):
@@ -77,7 +83,7 @@ def load_graph(weight1, weight2, weight3, weight4):
     sorted_score_fig.update_traces(texttemplate='%{text:,.3%}')
     sorted_score_fig.update_xaxes(range=[0, 1])
     sorted_score_fig.layout.margin = dict(l=10, r=10, t=10, b=10)
-    
+
     return sorted_score_fig
 
 
@@ -271,28 +277,18 @@ app.layout = html.Div(
 
 #Update Graph Values
 @app.callback(
-    [dash.dependencies.Output('sorted-scores', 'figure'),
-    dash.dependencies.Output('sorted-score-table', 'figure')],
+    [dash.dependencies.Output('output-data-upload', 'children'),
+     dash.dependencies.Output('sorted-scores', 'figure'),
+     dash.dependencies.Output('sorted-score-table', 'figure')],
     [dash.dependencies.Input('my-slider1', 'value'),
-    dash.dependencies.Input('my-slider2', 'value'),
-    dash.dependencies.Input('my-slider3', 'value'),
-    dash.dependencies.Input('my-slider4', 'value')])
-def update_output(value1, value2, value3, value4):
-    return load_graph(value1, value2, value3, value4), generate_table()
+     dash.dependencies.Input('my-slider2', 'value'),
+     dash.dependencies.Input('my-slider3', 'value'),
+     dash.dependencies.Input('my-slider4', 'value'),
+     dash.dependencies.Input('upload-data', 'contents'),
+     dash.dependencies.Input('upload-data', 'filename')])
+def update_output(value1, value2, value3, value4, list_of_contents, file_name):
+    return upload_data(list_of_contents, file_name), load_graph(value1, value2, value3, value4), generate_table()
 
-# Load File
-@app.callback(
-    dash.dependencies.Output('output-data-upload', 'children'),
-    [dash.dependencies.Input('upload-data', 'contents'),
-    dash.dependencies.State('upload-data', 'filename'),
-    dash.dependencies.State('upload-data', 'last_modified')])
-def upload_data(list_of_contents, list_of_names, list_of_dates):
-    if list_of_contents is not None:
-        children = [
-            parse_contents(c, n, d) for c, n, d in
-            zip(list_of_contents, list_of_names, list_of_dates)]
-        update_output(weights[0], weights[1], weights[2], weights[3])
-        return children
 
 if __name__ == '__main__':
     app.run_server(debug=True)
