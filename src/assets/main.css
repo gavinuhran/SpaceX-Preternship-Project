@@ -1,6 +1,9 @@
 body {
-    height: 100%;
     background-color: #f2f2f2;
+}
+
+.page-container {
+    margin: 2vh 2vw;
 }
 
 .row {
@@ -22,6 +25,7 @@ body {
     margin: 0 2vw;
     padding: 0 2vw;
     height: 50vh;
+    width: 20vw;
 }
 
 #sorted-scores {
@@ -44,4 +48,23 @@ body {
 /* Hide control bar */
 .modebar {
     display: none !important;
+}
+
+#upload-data {
+    width: 10vw;
+    height: auto;
+    border-width: 1px;
+    border-style: dashed;
+    border-radius: 5px;
+    text-align: center;
+    padding: 5vh 2vw;
+    background-color: white;
+}
+
+#container-1 {
+    display: block;
+}
+
+#container-2 {
+    display: none;
 }

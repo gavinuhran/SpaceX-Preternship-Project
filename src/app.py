@@ -107,7 +107,7 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 # APP LAYOUT
 app.layout = html.Div(
 
-    [
+    children=[
     html.H3(
         children='SpaceX Dashboard',
         style={
@@ -123,156 +123,169 @@ app.layout = html.Div(
     ),
 
     html.Div(
-        className='row',
+        id='container-1',
+        className='page-container',
         children=[
-            dcc.Graph(
-                id='sorted-scores',
-                className='box',
-                style={
-                    'border-radius': '10px'
-                },
-                figure=load_graph(1,1,1,1)
-            ),
             html.Div(
-                id='slider-box',
-                className='box',
+                className='row',
                 children=[
-                    html.Div(
-                        className='sliders',
+                    dcc.Graph(
+                        id='sorted-scores',
+                        className='box',
                         style={
-                            'width': 400
+                            'border-radius': '10px'
                         },
+                        figure=load_graph(1,1,1,1)
+                    ),
+                    html.Div(
+                        id='slider-box',
+                        className='box',
                         children=[
-                            'Days Past PO',
-                            dcc.Slider(
-                                id='my-slider1',
-                                min=1,
-                                max=10,
-                                step=0.5,
-                                value=1,
-                                marks={
-                                    1: '1',
-                                    2: '2',
-                                    3: '3',
-                                    4: '4',
-                                    5: '5',
-                                    6: '6',
-                                    7: '7',
-                                    8: '8',
-                                    9: '9',
-                                    10: '10',
+                            html.Div(
+                                className='sliders',
+                                style={
+                                    'width': 400
                                 },
-                                included=False,
-                            ),
+                                children=[
+                                    'Days Past PO',
+                                    dcc.Slider(
+                                        id='my-slider1',
+                                        min=1,
+                                        max=10,
+                                        step=0.5,
+                                        value=1,
+                                        marks={
+                                            1: '1',
+                                            2: '2',
+                                            3: '3',
+                                            4: '4',
+                                            5: '5',
+                                            6: '6',
+                                            7: '7',
+                                            8: '8',
+                                            9: '9',
+                                            10: '10',
+                                        },
+                                        included=False,
+                                    ),
 
-                            'Non-conforming Units',
-                            dcc.Slider(
-                                id='my-slider2',
-                                min=1,
-                                max=10,
-                                step=0.5,
-                                value=1,
-                                marks={
-                                    1: '1',
-                                    2: '2',
-                                    3: '3',
-                                    4: '4',
-                                    5: '5',
-                                    6: '6',
-                                    7: '7',
-                                    8: '8',
-                                    9: '9',
-                                    10: '10',
-                                },
-                                included=False,
-                            ),
+                                    'Non-conforming Units',
+                                    dcc.Slider(
+                                        id='my-slider2',
+                                        min=1,
+                                        max=10,
+                                        step=0.5,
+                                        value=1,
+                                        marks={
+                                            1: '1',
+                                            2: '2',
+                                            3: '3',
+                                            4: '4',
+                                            5: '5',
+                                            6: '6',
+                                            7: '7',
+                                            8: '8',
+                                            9: '9',
+                                            10: '10',
+                                        },
+                                        included=False,
+                                    ),
 
-                            'Downstream Failures',
-                            dcc.Slider(
-                                id='my-slider3',
-                                min=1,
-                                max=10,
-                                step=0.5,
-                                value=4,
-                                marks={
-                                    1: '1',
-                                    2: '2',
-                                    3: '3',
-                                    4: '4',
-                                    5: '5',
-                                    6: '6',
-                                    7: '7',
-                                    8: '8',
-                                    9: '9',
-                                    10: '10',
-                                },
-                                included=False,
-                            ),
+                                    'Downstream Failures',
+                                    dcc.Slider(
+                                        id='my-slider3',
+                                        min=1,
+                                        max=10,
+                                        step=0.5,
+                                        value=4,
+                                        marks={
+                                            1: '1',
+                                            2: '2',
+                                            3: '3',
+                                            4: '4',
+                                            5: '5',
+                                            6: '6',
+                                            7: '7',
+                                            8: '8',
+                                            9: '9',
+                                            10: '10',
+                                        },
+                                        included=False,
+                                    ),
 
-                            'Cost Difference from Target',
-                            dcc.Slider(
-                                id='my-slider4',
-                                min=1,
-                                max=10,
-                                step=0.5,
-                                value=1,
-                                marks={
-                                    1: '1',
-                                    2: '2',
-                                    3: '3',
-                                    4: '4',
-                                    5: '5',
-                                    6: '6',
-                                    7: '7',
-                                    8: '8',
-                                    9: '9',
-                                    10: '10',
-                                },
-                                included=False,
-                            ),
+                                    'Cost Difference from Target',
+                                    dcc.Slider(
+                                        id='my-slider4',
+                                        min=1,
+                                        max=10,
+                                        step=0.5,
+                                        value=1,
+                                        marks={
+                                            1: '1',
+                                            2: '2',
+                                            3: '3',
+                                            4: '4',
+                                            5: '5',
+                                            6: '6',
+                                            7: '7',
+                                            8: '8',
+                                            9: '9',
+                                            10: '10',
+                                        },
+                                        included=False,
+                                    ),
+                                ]
+                            )
                         ]
-                    )
+                    ),
+                    html.Div([
+                        dcc.Upload(
+                            id='upload-data',
+                            children=html.Div([
+                                'Drag and Drop or ',
+                                html.A('Select Files')
+                            ]),
+                            # Allow multiple files to be uploaded
+                            multiple=True
+                        ),
+                        html.Div(id='output-data-upload'),
+                    ])
                 ]
             ),
-            html.Div([
-                dcc.Upload(
-                    id='upload-data',
-                    children=html.Div([
-                        'Drag and Drop or ',
-                        html.A('Select Files')
-                    ]),
-                    style={
-                        'width': '100%',
-                        'height': '60px',
-                        'lineHeight': '60px',
-                        'borderWidth': '1px',
-                        'borderStyle': 'dashed',
-                        'borderRadius': '5px',
-                        'textAlign': 'center',
-                        'margin': '10px'
-                    },
-                    # Allow multiple files to be uploaded
-                    multiple=True
-                ),
-                html.Div(id='output-data-upload'),
-            ])
+
+            html.Div(
+                className='row',
+                children=[
+                    html.Div(
+                        className='data-table box',
+                        children=[
+                            dcc.Graph(
+                                id='sorted-score-table',
+                                figure=generate_table()
+                            ),
+                        ]
+                    ),
+                ]
+            )
         ]
     ),
 
     html.Div(
-        className='row',
+        id='container-2',
+        className='page-container',
         children=[
             html.Div(
-                className='data-table box',
+                className='row',
                 children=[
                     dcc.Graph(
-                        id='sorted-score-table',
-                        figure=generate_table()
-                    ),
+                        id='stats-table',
+                        className='box'
+
+                    )
                 ]
-            ),
+            )
         ]
-    )
+    ),
 ])
 
 #Update Graph Values
