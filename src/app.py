@@ -77,11 +77,26 @@ def load_graph(weight1, weight2, weight3, weight4):
     # Load data from file
     load_data(weight1, weight2, weight3, weight4)
 
+    # Generate Colors
+    color_list = ['hex=#6CFD68',
+                'hex=#E618A4',
+                'hex=#90B67B',
+                'hex=#627E34',
+                'hex=#3BE9EC',
+                'hex=#AA019D',
+                'hex=#B1C55A',
+                'hex=#813FDB',
+                'hex=#92E25C',
+                'hex=#D504CF',
+                ]
+
     # Create new figure
     sorted_score_fig = px.bar(sorted_score_data, 
                             x='Score', y='Vendor',
                             orientation='h',
-                            text='Vendor')
+                            text='Vendor',
+                            color=color_list
+                            )
 
     #sorted_score_fig.update_traces(texttemplate='%{text:,.3%}')
     sorted_score_fig.update_xaxes(range=[0, 1])
