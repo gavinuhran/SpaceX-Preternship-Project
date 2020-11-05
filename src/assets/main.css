@@ -37,6 +37,10 @@ body {
     border-radius: 10px;
 }
 
+#stats-compare .main-svg {
+    border-radius: 10px;
+}
+
 .data-table .main-svg {
     border-radius: 10px;
 }
@@ -62,9 +66,13 @@ body {
 }
 
 #container-1 {
-    display: block;
+    display: none;
 }
 
 #container-2 {
-    display: none;
+    display: block;
 }
+
+/*#stats-compare {
+
+}*/

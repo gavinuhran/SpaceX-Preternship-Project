@@ -34,14 +34,13 @@ sorted_scores = None
 sorted_score_data = None
 
 
-# LOAD DATA
+# LOAD DATA for scores
 def load_data(weight1, weight2, weight3, weight4):
     global weights, vendor_dictionary, sorted_vendors, sorted_scores, sorted_score_data
     weights = [weight1, weight2, weight3, weight4]
     vendor_dictionary = import_data(filename, weights)
     sorted_vendors, sorted_scores = get_all_scores(vendor_dictionary)
     sorted_score_data = {'Vendor' : list(sorted_vendors), 'Score': sorted_scores}
-
 
 # PARSE UPLOAD FILE
 def parse_contents(contents, file_name):
@@ -86,6 +85,35 @@ def load_graph(weight1, weight2, weight3, weight4):
 
     return sorted_score_fig
 
+# Load graph with stats to compare
+def load_stats_graph(vendors=['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'],
+                     stat='Total Failure Rate'):
+    stat_data = []
+    if stat == 'Total Failure Rate':
+        for i in vendors:
+            stat_data.append(get_total_failure_rate(vendor_dictionary, i))
+    
+    plot_data = {'Vendor': vendors, 'Stat': stat_data}
+
+    stat_fig = px.bar(plot_data, x='Vendor', y='Stat')
+    stat_fig.update_layout(
+        title={
+            'text': stat,
+            'x': 0.5
+        },
+        yaxis={
+            'title': '',
+            'tickformat': ',.2%'
+        },
+        margin={
+            'l': 10,
+            'r': 20,
+            'b': 10,
+            't': 40
+        }
+    )
+
+    return stat_fig
 
 # GENERATE TABLE
 def generate_table():
@@ -278,9 +306,9 @@ app.layout = html.Div(
                 className='row',
                 children=[
                     dcc.Graph(
-                        id='stats-table',
-                        className='box'
-
+                        id='stats-compare',
+                        className='box',
+                        figure=load_stats_graph()
                     )
                 ]
             )
