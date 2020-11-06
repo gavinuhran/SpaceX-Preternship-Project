@@ -9,6 +9,7 @@ import pandas as pd
 
 # Dash components
 import dash
+from dash.dependencies import Input, Output
 import dash_table
 import dash_core_components as dcc
 import dash_html_components as html
@@ -95,7 +96,7 @@ def load_stats_graph(vendors=['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'],
     
     plot_data = {'Vendor': vendors, 'Stat': stat_data}
 
-    stat_fig = px.bar(plot_data, x='Vendor', y='Stat')
+    stat_fig = px.bar(plot_data, x='Vendor', y='Stat', text='Stat')
     stat_fig.update_layout(
         title={
             'text': stat,
@@ -103,7 +104,7 @@ def load_stats_graph(vendors=['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'],
         },
         yaxis={
             'title': '',
-            'tickformat': ',.2%'
+            'tickformat': ',.0%'
         },
         margin={
             'l': 10,
@@ -112,6 +113,7 @@ def load_stats_graph(vendors=['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'],
             't': 40
         }
     )
+    stat_fig.update_traces(texttemplate='%{text:,.1%}')
 
     return stat_fig
 
@@ -318,6 +320,23 @@ app.layout = html.Div(
             html.Div(
                 className='row',
                 children=[
+                    dcc.Checklist(
+                        id='vendor-checklist',
+                        className='box',
+                        options=[
+                            {'label': 'A', 'value': 'A'},
+                            {'label': 'B', 'value': 'B'},
+                            {'label': 'C', 'value': 'C'},
+                            {'label': 'D', 'value': 'D'},
+                            {'label': 'E', 'value': 'E'},
+                            {'label': 'F', 'value': 'F'},
+                            {'label': 'G', 'value': 'G'},
+                            {'label': 'H', 'value': 'H'},
+                            {'label': 'I', 'value': 'I'},
+                            {'label': 'J', 'value': 'J'},
+                        ],
+                        value=['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
+                    ),
                     dcc.Graph(
                         id='stats-compare',
                         className='box',
@@ -331,17 +350,23 @@ app.layout = html.Div(
 
 #Update Graph Values
 @app.callback(
-    [dash.dependencies.Output('output-data-upload', 'children'),
-     dash.dependencies.Output('sorted-scores', 'figure'),
-     dash.dependencies.Output('sorted-score-table', 'figure')],
-    [dash.dependencies.Input('my-slider1', 'value'),
-     dash.dependencies.Input('my-slider2', 'value'),
-     dash.dependencies.Input('my-slider3', 'value'),
-     dash.dependencies.Input('my-slider4', 'value'),
-     dash.dependencies.Input('upload-data', 'contents'),
-     dash.dependencies.Input('upload-data', 'filename')])
+    [Output('output-data-upload', 'children'),
+     Output('sorted-scores', 'figure'),
+     Output('sorted-score-table', 'figure')],
+    [Input('my-slider1', 'value'),
+     Input('my-slider2', 'value'),
+     Input('my-slider3', 'value'),
+     Input('my-slider4', 'value'),
+     Input('upload-data', 'contents'),
+     Input('upload-data', 'filename')])
 def update_output(value1, value2, value3, value4, list_of_contents, file_name):
     return upload_data(list_of_contents, file_name), load_graph(value1, value2, value3, value4), generate_table()
+
+@app.callback(
+    Output('stats-compare', 'figure'),
+    Input('vendor-checklist', 'value'))
+def update_stats_graph(vendors):
+    return load_stats_graph(vendors=sorted(vendors))
 
 
 if __name__ == '__main__':

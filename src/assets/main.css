@@ -71,6 +71,26 @@ body {
     border-radius: 10px;
 }
 
+#stats-compare {
+    width: 45vw;
+    height: 50vh;
+}
+
+#vendor-checklist {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 10vw;
+    height: 50vh;
+    margin-right: 5vw;
+    font-family: 'Andale Mono';
+}
+
+#vendor-checklist input {
+    margin-right: 1vw;
+}
+
 .data-table .main-svg {
     border-radius: 10px;
 }
@@ -94,6 +114,7 @@ body {
     padding: 5vh 2vw;
     background-color: white;
 }
+
 
 #container-1 {
     display: block;
