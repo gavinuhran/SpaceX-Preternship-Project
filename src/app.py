@@ -5,6 +5,7 @@ import base64
 import datetime
 import io
 import pandas as pd
+import random
 
 
 # Dash components
@@ -34,14 +35,45 @@ sorted_vendors = None
 sorted_scores = None
 sorted_score_data = None
 
+colors = None
+vendor_positions = None
+vendor_colors = None
+
+state = ''
 
 # LOAD DATA for scores
 def load_data(weight1, weight2, weight3, weight4):
-    global weights, vendor_dictionary, sorted_vendors, sorted_scores, sorted_score_data
+    global weights, vendor_dictionary, sorted_vendors, sorted_scores, sorted_score_data, colors, vendor_positions, vendor_colors
     weights = [weight1, weight2, weight3, weight4]
     vendor_dictionary = import_data(filename, weights)
     sorted_vendors, sorted_scores = get_all_scores(vendor_dictionary)
-    sorted_score_data = {'Vendor' : list(sorted_vendors), 'Score': sorted_scores}
+    sorted_vendors = list(sorted_vendors)
+    sorted_score_data = {'Vendor' : sorted_vendors, 'Score': sorted_scores}
+    
+    colors = []
+
+    if state == 'highlight':
+        for i in range(len(sorted_vendors)):
+            colors.append('#8686FF')
+
+        if vendor_positions == None:
+            vendor_positions = get_new_vendor_positions(sorted_vendors)
+        else:
+            new_vendor_positions = get_new_vendor_positions(sorted_vendors)
+            for vendor in vendor_positions:
+                if new_vendor_positions[vendor] > vendor_positions[vendor]:
+                    colors[new_vendor_positions[vendor]] = '#86FF86'
+                elif new_vendor_positions[vendor] < vendor_positions[vendor]:
+                    colors[new_vendor_positions[vendor]] = '#FF8686'
+            vendor_positions = new_vendor_positions
+    else:
+        if vendor_colors == None:
+            vendor_colors = {}
+            for vendor in sorted_vendors:
+                random_color = '#' + "%06x" % random.randint(0, 0xFFFFFF)
+                vendor_colors[vendor] = random_color
+        for i in range(len(sorted_vendors)):
+            colors.append(vendor_colors[sorted_vendors[i]])
 
 # PARSE UPLOAD FILE
 def parse_contents(contents, file_name):
@@ -77,14 +109,21 @@ def load_graph(weight1, weight2, weight3, weight4):
     # Load data from file
     load_data(weight1, weight2, weight3, weight4)
 
-    # Create new figure
-    sorted_score_fig = px.bar(sorted_score_data, x='Score', y='Vendor',
-                              orientation='h', text='Score')
-    sorted_score_fig.update_traces(texttemplate='%{text:,.3%}')
-    sorted_score_fig.update_xaxes(range=[0, 1])
-    sorted_score_fig.layout.margin = dict(l=10, r=10, t=10, b=10)
+    fig = go.Figure(data=[
+        go.Bar(
+            x=list(sorted_scores), 
+            y=list(sorted_vendors),
+            text=list(sorted_vendors),
+            marker_color=list(colors),
+            orientation='h',
+        )
+    ])
 
-    return sorted_score_fig
+    fig.update_traces(texttemplate='%{text:,.3%}')
+    fig.update_xaxes(range=[0, 1])
+    fig.layout.margin = dict(l=10, r=10, t=10, b=10)
+
+    return fig
 
 # Load graph with stats to compare
 def load_stats_graph(vendors=['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'],
@@ -295,7 +334,6 @@ app.layout = html.Div(
                     ])
                 ]
             ),
-
             html.Div(
                 className='row',
                 children=[

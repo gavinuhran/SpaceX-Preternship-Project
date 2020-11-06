@@ -48,3 +48,8 @@ def get_total_failure_rate(dictionary, vendor):
 
     return (nonconforming_units + units_downstream_failure) / lot_size
 
+def get_new_vendor_positions(vendors):
+    vendor_positions = {}
+    for i in range(len(vendors)):
+        vendor_positions[vendors[i]] = i
+    return vendor_positions
