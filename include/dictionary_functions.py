@@ -40,6 +40,14 @@ def get_all_scores(dictionary):
 
     return sorted_dictionary.keys(), scores
 
+def get_total_failure_rate(dictionary, vendor):
+    v = dictionary[vendor]
+    lot_size = v.total_lot_size
+    nonconforming_units = v.total_nonconforming_units
+    units_downstream_failure = v.total_units_downstream_failure
+
+    return (nonconforming_units + units_downstream_failure) / lot_size
+
 def get_new_vendor_positions(vendors):
     vendor_positions = {}
     for i in range(len(vendors)):

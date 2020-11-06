@@ -1,6 +1,39 @@
 body {
-    height: 100%;
     background-color: #f2f2f2;
+}
+
+.page-container {
+    margin: 2vh 2vw;
+}
+
+.nav {
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+    margin-left: 5%;
+}
+
+.container-tab {
+    width: 50%;
+    border: 1px solid black;
+    text-align: center;
+    background-color: white;
+    cursor: pointer;
+}
+
+#tab-1 {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+#tab-2 {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.active {
+    background-color: #999999;
+    color: white;
 }
 
 .row {
@@ -22,6 +55,7 @@ body {
     margin: 0 2vw;
     padding: 0 2vw;
     height: 50vh;
+    width: 20vw;
 }
 
 #sorted-scores {
@@ -31,6 +65,30 @@ body {
 
 #sorted-scores .main-svg {
     border-radius: 10px;
+}
+
+#stats-compare .main-svg {
+    border-radius: 10px;
+}
+
+#stats-compare {
+    width: 45vw;
+    height: 50vh;
+}
+
+#vendor-checklist {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 10vw;
+    height: 50vh;
+    margin-right: 5vw;
+    font-family: 'Andale Mono';
+}
+
+#vendor-checklist input {
+    margin-right: 1vw;
 }
 
 .data-table .main-svg {
@@ -45,3 +103,27 @@ body {
 .modebar {
     display: none !important;
 }
+
+#upload-data {
+    width: 10vw;
+    height: auto;
+    border-width: 1px;
+    border-style: dashed;
+    border-radius: 5px;
+    text-align: center;
+    padding: 5vh 2vw;
+    background-color: white;
+}
+
+
+#container-1 {
+    display: block;
+}
+
+#container-2 {
+    display: none;
+}
+
+/*#stats-compare {
+
+}*/
