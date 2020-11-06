@@ -151,6 +151,22 @@ app.layout = html.Div(
     ),
 
     html.Div(
+        className='nav',
+        children=[
+            html.Div(
+                className='container-tab active',
+                id='tab-1',
+                children='Main Page'
+            ),
+            html.Div(
+                className='container-tab',
+                id='tab-2',
+                children='Compare Vendors'
+            )
+        ]
+    ),
+
+    html.Div(
         id='container-1',
         className='page-container',
         children=[
@@ -160,9 +176,6 @@ app.layout = html.Div(
                     dcc.Graph(
                         id='sorted-scores',
                         className='box',
-                        style={
-                            'border-radius': '10px'
-                        },
                         figure=load_graph(1,1,1,1)
                     ),
                     html.Div(
