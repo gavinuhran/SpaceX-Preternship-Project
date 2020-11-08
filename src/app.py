@@ -49,7 +49,7 @@ def load_data(weight1, weight2, weight3, weight4):
     sorted_vendors, sorted_scores = get_all_scores(vendor_dictionary)
     sorted_vendors = list(sorted_vendors)
     sorted_score_data = {'Vendor' : sorted_vendors, 'Score': sorted_scores}
-    
+
     colors = []
 
     if state == 'highlight':
@@ -111,7 +111,7 @@ def load_graph(weight1, weight2, weight3, weight4):
 
     fig = go.Figure(data=[
         go.Bar(
-            x=list(sorted_scores), 
+            x=list(sorted_scores),
             y=list(sorted_vendors),
             text=list(sorted_vendors),
             marker_color=list(colors),
@@ -127,12 +127,12 @@ def load_graph(weight1, weight2, weight3, weight4):
 
 # Load graph with stats to compare
 def load_stats_graph(vendors=['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'],
-                     stat='Total Failure Rate'):
+                     stat = 'Total Failure Rate'):
     stat_data = []
     if stat == 'Total Failure Rate':
         for i in vendors:
             stat_data.append(get_total_failure_rate(vendor_dictionary, i))
-    
+
     plot_data = {'Vendor': vendors, 'Stat': stat_data}
 
     stat_fig = px.bar(plot_data, x='Vendor', y='Stat', text='Stat')
@@ -155,6 +155,69 @@ def load_stats_graph(vendors=['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'],
     stat_fig.update_traces(texttemplate='%{text:,.1%}')
 
     return stat_fig
+
+#Loads a bar chart that contains the commercial information for vendor ananlysis
+def load_PO_bar(vendors=['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'],
+                     stat='Average PO'):
+    stat_data = []
+    if stat == 'Average PO':
+        for i in vendors:
+            stat_data.append(get_average_PO(vendor_dictionary, i))
+
+    plot_data = {'Vendor': vendors, 'Stat': stat_data}
+
+    stat_fig = px.bar(plot_data, x='Vendor', y='Stat', text='Stat')
+    stat_fig.update_layout(
+        title={
+            'text': stat,
+            'x': 0.5
+        },
+        yaxis={
+            'title': '',
+            'tickformat': ',.0%'
+        },
+        margin={
+            'l': 10,
+            'r': 20,
+            'b': 10,
+            't': 40
+        }
+    )
+    stat_fig.update_traces(texttemplate='%{text:,.1%}')
+
+    return stat_fig
+
+#Loads the bar graph for the cost values
+def load_cost_bar(vendors=['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'],
+                     stat='Average Cost Away from Target'):
+    stat_data = []
+    if stat == 'Average Cost Away from Target':
+        for i in vendors:
+            stat_data.append(get_avg_costDif(vendor_dictionary, i))
+
+    plot_data = {'Vendor': vendors, 'Stat': stat_data}
+
+    stat_fig = px.bar(plot_data, x='Vendor', y='Stat', text='Stat')
+    stat_fig.update_layout(
+        title={
+            'text': stat,
+            'x': 0.5
+        },
+        yaxis={
+            'title': '',
+            'tickformat': ',.0%'
+        },
+        margin={
+            'l': 10,
+            'r': 20,
+            'b': 10,
+            't': 40
+        }
+    )
+    stat_fig.update_traces(texttemplate='%{text:,.1%}')
+
+    return stat_fig
+
 
 # GENERATE TABLE
 def generate_table():
@@ -202,8 +265,13 @@ app.layout = html.Div(
             html.Div(
                 className='container-tab',
                 id='tab-2',
-                children='Compare Vendors'
-            )
+                children='Quality Analysis'
+            ),
+            html.Div(
+                className='container-tab',
+                id='tab-3',
+                children='Commercial Analysis'
+            ),
         ]
     ),
 
@@ -384,7 +452,19 @@ app.layout = html.Div(
             )
         ]
     ),
+
+    html.Div(
+        id='container-3',
+        className='page-container',
+        children=[
+            html.Div(
+                className = 'row',
+                children = ['test']
+            )
+        ]
+    )
 ])
+
 
 #Update Graph Values
 @app.callback(
@@ -405,7 +485,6 @@ def update_output(value1, value2, value3, value4, list_of_contents, file_name):
     Input('vendor-checklist', 'value'))
 def update_stats_graph(vendors):
     return load_stats_graph(vendors=sorted(vendors))
-
 
 if __name__ == '__main__':
     app.run_server(debug=True)
