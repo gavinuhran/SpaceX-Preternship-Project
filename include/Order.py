@@ -15,7 +15,8 @@ class Order:
     # GET SCORE
     # Parameters: float[4] -> days_past_PO weight, nonconforming weight, downstream fail weight, cost weight
     def get_score(self, weights):
-        #return self.lot_size / float((weights[0])*(1+self.days_past_PO) * ((weights[1])*(self.nonconforming_units) + (weights[2])*(self.units_downstream_failure)) * (weights[3])*(100 + self.cost_away_from_target))
+        # Invert scores to make weighting formula work properly
+        weights = [11 - i for i in weights]
         
         return 1 / ((weights[0])*(1+self.days_past_PO))  \
             + 1 / ((weights[1])*(self.nonconforming_units) + (weights[2])*(self.units_downstream_failure)) \
