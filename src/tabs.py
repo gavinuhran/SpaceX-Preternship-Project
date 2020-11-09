@@ -109,19 +109,22 @@ def load_graph(weight1, weight2, weight3, weight4):
     # Load data from file
     load_data(weight1, weight2, weight3, weight4)
 
-    fig = go.Figure(data=[
+    scores = list(sorted_scores)
+    vendors = list(sorted_vendors)
+
+    fig = go.Figure([
         go.Bar(
-            x=list(sorted_scores),
-            y=list(sorted_vendors),
-            text=list(sorted_vendors),
+            x=scores,
+            y=vendors,
+            texttemplate='%{y}: %{x:,.3%}',
+            textposition='auto',
             marker_color=list(colors),
             orientation='h',
         )
     ])
 
-    fig.update_traces(texttemplate='%{text:,.3%}')
     fig.update_xaxes(range=[0, 1])
-    fig.layout.margin = dict(l=10, r=10, t=10, b=10)
+    fig.update_layout(margin=dict(l=10, r=10, t=10, b=10), xaxis_tickformat='%')
 
     return fig
 
@@ -133,16 +136,22 @@ def load_stats_graph(vendors=['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'],
     if stat == 'Total Failure Rate':
         for i in vendors:
             stat_data.append(get_total_failure_rate(vendor_dictionary, i))
-    elif stat == 'Average PO':
+    elif stat == 'Average Days Past PO':
         for i in vendors:
             stat_data.append(vendor_dictionary[i].get_avg_days_past_PO())
     elif stat == 'Average Cost Away from Target':
         for i in vendors:
             stat_data.append(vendor_dictionary[i].get_avg_cost_away_from_target()/100)
 
-    plot_data = {'Vendor': vendors, 'Stat': stat_data}
+    stat_fig = go.Figure([
+        go.Bar(
+            x=vendors,
+            y=stat_data,
+            text=stat_data,
+            textposition='auto'
+        )
+    ])
 
-    stat_fig = px.bar(plot_data, x='Vendor', y='Stat', text='Stat')
     if stat == 'Total Failure Rate' or stat == 'Average Cost Away from Target':
         stat_fig.update_layout(
             title={
@@ -174,7 +183,7 @@ def load_stats_graph(vendors=['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'],
                 't': 40
             }
         )
-        stat_fig.update_traces(texttemplate='%{text:,.3f}')
+        stat_fig.update_traces(texttemplate='%{text:,.2f}')
     return stat_fig
 
 
@@ -213,7 +222,7 @@ app.layout = html.Div(
     ),
 
     dcc.Tabs([
-        dcc.Tab(label = 'Main Page', children = [
+        dcc.Tab(label='Main Page', id='tab-1', children=[
             html.Div(
                 children=[
                     html.Div(
@@ -357,19 +366,7 @@ app.layout = html.Div(
             )
         ]),
 
-        dcc.Tab(label = 'Vendor Comparisons', children = [
-            html.Div([
-                dcc.Dropdown(
-                    id='stat-dropdown',
-                        options=[
-                            {'label': 'Total Failure Rate', 'value': 'Total Failure Rate'},
-                            {'label': 'Average PO', 'value': 'Average PO'},
-                            {'label': 'Average Cost Away from Target', 'value': 'Average Cost Away from Target'}
-                        ],
-                        value='Total Failure Rate'
-                    ),
-                    html.Div(id='dd-output-container')
-            ]),
+        dcc.Tab(label='Vendor Comparisons', id='tab-2', children=[
             html.Div(
                 children=[
                     html.Div(
@@ -396,6 +393,16 @@ app.layout = html.Div(
                                 id='stats-compare',
                                 className='box',
                                 figure=load_stats_graph()
+                            ),
+                            dcc.Dropdown(
+                                id='stat-dropdown',
+                                className='box',
+                                options=[
+                                    {'label': 'Total Failure Rate', 'value': 'Total Failure Rate'},
+                                    {'label': 'Average Days Past PO', 'value': 'Average Days Past PO'},
+                                    {'label': 'Average Cost Away from Target', 'value': 'Average Cost Away from Target'}
+                                ],
+                                value='Total Failure Rate'
                             )
                         ]
                     )
