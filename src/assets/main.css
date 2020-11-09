@@ -74,6 +74,7 @@ body {
 #stats-compare {
     width: 45vw;
     height: 50vh;
+    margin-right: 5vw;
 }
 
 #vendor-checklist {
@@ -84,11 +85,17 @@ body {
     width: 10vw;
     height: 50vh;
     margin-right: 5vw;
+    margin-left: 2vw;
     font-family: 'Andale Mono';
 }
 
 #vendor-checklist input {
     margin-right: 1vw;
+}
+
+#stat-dropdown {
+    width: 30vw;
+    margin-bottom: auto;
 }
 
 .data-table .main-svg {

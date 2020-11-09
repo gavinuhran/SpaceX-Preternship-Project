@@ -48,6 +48,16 @@ def get_total_failure_rate(dictionary, vendor):
 
     return (nonconforming_units + units_downstream_failure) / lot_size
 
+def get_average_PO(dictionary, vendor):
+    v = dictionary[vendor]
+    val = float(v.get_avg_days_past_PO)
+    return val
+
+def get_avg_costDif(dictionary, vendor):
+    v = dictionary[vendor]
+    val = float(v.get_avg_cost_away_from_target)
+    return val
+
 def get_new_vendor_positions(vendors):
     vendor_positions = {}
     for i in range(len(vendors)):

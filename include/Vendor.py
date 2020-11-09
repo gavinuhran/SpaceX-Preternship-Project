@@ -5,7 +5,7 @@ class Vendor:
 
     # CONSTRUCTOR
     # Parameters: string
-    def __init__(self, name): 
+    def __init__(self, name):
         self.name = name
         self.orders = []
 
@@ -14,9 +14,9 @@ class Vendor:
         self.total_nonconforming_units = 0
         self.total_units_downstream_failure = 0
         self.total_cost_away_from_target = 0
-        
+
         self.total_orders_score = 0
-      
+
     # ADD ORDER
     # Parameters: List representation of order data
     def add_order(self, order, weights):
@@ -33,12 +33,12 @@ class Vendor:
         self.total_orders_score += new_order.score
 
     # GET NUM ORDERS
-    # Parameters: 
+    # Parameters:
     def get_num_orders(self):
         return len(self.orders)
-        
+
     # GET SCORE
-    # Parameters: 
+    # Parameters:
     def get_score(self):
         # Must subtract an average score to make the equation zero-centered
         # x = self.total_orders_score - 1.75
@@ -47,29 +47,29 @@ class Vendor:
 
 
     # GET AVERAGE DAYS PAST PO
-    # Parameters: 
+    # Parameters:
     def get_avg_days_past_PO(self):
-        return self.total_days_past_PO / float(len(self.orders))
+        return float(self.total_days_past_PO / float(len(self.orders)))
 
     # GET AVERAGE LOT SIZE
-    # Parameters: 
+    # Parameters:
     def get_avg_lot_size(self):
         return self.total_lot_size / float(len(self.orders))
 
     # GET AVERAGE NONCONFORMING UNITS
-    # Parameters: 
+    # Parameters:
     def get_avg_nonconforming_units(self):
         return self.total_nonconforming_units / float(len(self.orders))
 
     # GET AVERAGE UNITS DOWNSTREAM FAILURE
-    # Parameters: 
+    # Parameters:
     def get_avg_units_downstream_failure(self):
         return self.total_units_downstream_failure / float(len(self.orders))
 
     # GET AVERAGE COST AWAY FROM TARGET
-    # Parameters: 
+    # Parameters:
     def get_avg_cost_away_from_target(self):
-        return self.total_cost_away_from_target / float(len(self.orders))
+        return float(self.total_cost_away_from_target / float(len(self.orders)))
 
     # GET THE TOTAL FAILURES FROM THE TOTAL ORDERS
   	# Parameters: None
@@ -78,7 +78,7 @@ class Vendor:
         return fails
 
     # TO STRING
-    # Parameters: 
+    # Parameters:
     def __str__(self):
         return self.name + ' - Orders: ' + str(self.get_num_orders())
 
