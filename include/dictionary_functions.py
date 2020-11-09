@@ -50,11 +50,13 @@ def get_total_failure_rate(dictionary, vendor):
 
 def get_average_PO(dictionary, vendor):
     v = dictionary[vendor]
-    return v.get_avg_days_past_PO
+    val = float(v.get_avg_days_past_PO)
+    return val
 
 def get_avg_costDif(dictionary, vendor):
     v = dictionary[vendor]
-    return v.get_avg_cost_away_from_target
+    val = float(v.get_avg_cost_away_from_target)
+    return val
 
 def get_new_vendor_positions(vendors):
     vendor_positions = {}
