@@ -34,6 +34,7 @@ vendor_dictionary = None
 sorted_vendors = None
 sorted_scores = None
 sorted_score_data = None
+checklist_list = None
 
 colors = None
 vendor_positions = None
@@ -43,15 +44,17 @@ state = ''
 
 # LOAD DATA for scores
 def load_data(weight1, weight2, weight3, weight4):
-    global weights, vendor_dictionary, sorted_vendors, sorted_scores, sorted_score_data, colors, vendor_positions, vendor_colors
+    global weights, vendor_dictionary, sorted_vendors, sorted_scores, sorted_score_data, colors, vendor_positions, vendor_colors, checklist_list
     weights = [weight1, weight2, weight3, weight4]
     vendor_dictionary = import_data(filename, weights)
     sorted_vendors, sorted_scores = get_all_scores(vendor_dictionary)
     sorted_vendors = list(sorted_vendors)
     sorted_score_data = {'Vendor' : sorted_vendors, 'Score': sorted_scores}
+    checklist_list = []
+    for i in sorted_vendors:
+        checklist_list.append(dict({'label': str(i), 'value' : str(i)}))
 
     colors = []
-
     if state == 'highlight':
         for i in range(len(sorted_vendors)):
             colors.append('#8686FF')
@@ -132,7 +135,7 @@ def load_score_graph(weight1, weight2, weight3, weight4):
             'xanchor': 'center',
             'yanchor': 'top'
         },
-        margin=dict(l=10, r=10, t=50, b=10), 
+        margin=dict(l=10, r=10, t=50, b=10),
         xaxis_tickformat='%'
     )
 
@@ -213,11 +216,11 @@ def load_num_orders_graph():
     fig = go.Figure(go.Pie(
         labels=sorted_vendors,
         values=num_orders,
-        hovertemplate = "%{label}: <br># Orders: %{value} </br> %{percent}"
+        hovertemplate = "%{label}: <br># Orders: %{value} </br> %{percent} <extra></extra>"
     ))
 
     fig.update_traces(
-        textinfo='label', 
+        textinfo='label',
         textfont_size=14,
         marker=dict(colors=colors)
     )
@@ -234,6 +237,17 @@ def load_num_orders_graph():
     )
 
     return fig
+
+#Check to see if there is a requested file change using global file_name
+def file_change(str = []):
+    global filename
+    if(str == None):
+        return False
+    val = str[0]
+    val = val[:len(val)-5]
+    if val == filename:
+        return False
+    return True
 
 
 # APP CODE
@@ -406,7 +420,6 @@ app.layout = html.Div(
                                 children=[
                                     dcc.Graph(
                                         id='num-orders-chart',
-                                        className='box',
                                         figure=load_num_orders_graph()
                                     ),
                                 ]
@@ -426,19 +439,8 @@ app.layout = html.Div(
                             dcc.Checklist(
                                 id='vendor-checklist',
                                 className='box',
-                                options=[
-                                    {'label': 'A', 'value': 'A'},
-                                    {'label': 'B', 'value': 'B'},
-                                    {'label': 'C', 'value': 'C'},
-                                    {'label': 'D', 'value': 'D'},
-                                    {'label': 'E', 'value': 'E'},
-                                    {'label': 'F', 'value': 'F'},
-                                    {'label': 'G', 'value': 'G'},
-                                    {'label': 'H', 'value': 'H'},
-                                    {'label': 'I', 'value': 'I'},
-                                    {'label': 'J', 'value': 'J'},
-                                ],
-                                value=['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
+                                options=checklist_list,
+                                value = sorted_vendors
                             ),
                             dcc.Graph(
                                 id='stats-compare',
@@ -469,7 +471,10 @@ app.layout = html.Div(
 @app.callback(
     [Output('output-data-upload', 'children'),
      Output('sorted-scores', 'figure'),
-     Output('sorted-score-table', 'figure')],
+     Output('sorted-score-table', 'figure'),
+     Output('num-orders-chart', 'figure'),
+     Output('vendor-checklist', 'options'),
+     Output('vendor-checklist', 'value'),],
     [Input('my-slider1', 'value'),
      Input('my-slider2', 'value'),
      Input('my-slider3', 'value'),
@@ -477,10 +482,14 @@ app.layout = html.Div(
      Input('upload-data', 'contents'),
      Input('upload-data', 'filename')])
 def update_output(value1, value2, value3, value4, list_of_contents, file_name):
-    if (list_of_contents is None):
-        return None, load_score_graph(value1, value2, value3, value4), generate_table()
+    global vendor_colors, checklist_list, sorted_vendors
+    #No new file upload
+    if (not file_change(str = file_name)):
+        return None, load_score_graph(value1, value2, value3, value4), generate_table(), load_num_orders_graph(), checklist_list, sorted_vendors
     else:
-        return upload_data(list_of_contents, file_name), load_score_graph(value1, value2, value3, value4), generate_table()
+        #reset the vendor colors when a new file is uploaded
+        vendor_colors = None;
+        return upload_data(list_of_contents, file_name), load_score_graph(value1, value2, value3, value4), generate_table(), load_num_orders_graph(), checklist_list, sorted_vendors
 
 @app.callback(
     Output('stats-compare', 'figure'),
