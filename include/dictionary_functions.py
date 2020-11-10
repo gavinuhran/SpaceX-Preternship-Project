@@ -63,3 +63,9 @@ def get_new_vendor_positions(vendors):
     for i in range(len(vendors)):
         vendor_positions[vendors[i]] = i
     return vendor_positions
+
+def get_num_orders(dictionary, vendors):
+    num_orders = []
+    for vendor in vendors:
+        num_orders.append(dictionary[vendor].get_num_orders())
+    return num_orders
