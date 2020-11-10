@@ -124,7 +124,17 @@ def load_score_graph(weight1, weight2, weight3, weight4):
     ])
 
     fig.update_xaxes(range=[0, 1])
-    fig.update_layout(margin=dict(l=10, r=10, t=10, b=10), xaxis_tickformat='%')
+    fig.update_layout(
+        title={
+            'text': "Vendor Scores",
+            'y':0.95,
+            'x':0.5,
+            'xanchor': 'center',
+            'yanchor': 'top'
+        },
+        margin=dict(l=10, r=10, t=50, b=10), 
+        xaxis_tickformat='%'
+    )
 
     return fig
 
@@ -194,6 +204,37 @@ def generate_table():
                      ])
     fig.layout.margin = dict(l=10, r=10, t=10, b=10)
     return fig
+
+
+# GENERATE LOT SIZE PIE CHART
+def load_num_orders_graph():
+    num_orders = get_num_orders(vendor_dictionary, sorted_vendors)
+
+    fig = go.Figure(go.Pie(
+        labels=sorted_vendors,
+        values=num_orders,
+        hovertemplate = "%{label}: <br># Orders: %{value} </br> %{percent}"
+    ))
+
+    fig.update_traces(
+        textinfo='label', 
+        textfont_size=14,
+        marker=dict(colors=colors)
+    )
+
+    fig.update_layout(
+        title={
+            'text': "Order Distribution from Vendors",
+            'y':0.95,
+            'x':0.5,
+            'xanchor': 'center',
+            'yanchor': 'top'
+        },
+        margin=dict(l=10, r=10, t=50, b=20)
+    )
+
+    return fig
+
 
 # APP CODE
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -360,11 +401,16 @@ app.layout = html.Div(
                                     ),
                                 ]
                             ),
-                            dcc.Graph(
-                                id='lot-sizes',
-                                className='box',
-                                figure=load_score_graph(1,1,1,1)
-                            ),
+                            html.Div(
+                                className='data-table box',
+                                children=[
+                                    dcc.Graph(
+                                        id='num-orders-chart',
+                                        className='box',
+                                        figure=load_num_orders_graph()
+                                    ),
+                                ]
+                            )
                         ]
                     )
                 ]
