@@ -105,7 +105,7 @@ def upload_data(list_of_contents, file_name):
         return children
 
 # LOAD GRAPH
-def load_graph(weight1, weight2, weight3, weight4):
+def load_score_graph(weight1, weight2, weight3, weight4):
     # Load data from file
     load_data(weight1, weight2, weight3, weight4)
 
@@ -231,7 +231,7 @@ app.layout = html.Div(
                             dcc.Graph(
                                 id='sorted-scores',
                                 className='box',
-                                figure=load_graph(1,1,1,1)
+                                figure=load_score_graph(1,1,1,1)
                             ),
                             html.Div(
                                 id='slider-box',
@@ -360,6 +360,11 @@ app.layout = html.Div(
                                     ),
                                 ]
                             ),
+                            dcc.Graph(
+                                id='lot-sizes',
+                                className='box',
+                                figure=load_score_graph(1,1,1,1)
+                            ),
                         ]
                     )
                 ]
@@ -427,9 +432,9 @@ app.layout = html.Div(
      Input('upload-data', 'filename')])
 def update_output(value1, value2, value3, value4, list_of_contents, file_name):
     if (list_of_contents is None):
-        return None, load_graph(value1, value2, value3, value4), generate_table()
+        return None, load_score_graph(value1, value2, value3, value4), generate_table()
     else:
-        return upload_data(list_of_contents, file_name), load_graph(value1, value2, value3, value4), generate_table()
+        return upload_data(list_of_contents, file_name), load_score_graph(value1, value2, value3, value4), generate_table()
 
 @app.callback(
     Output('stats-compare', 'figure'),
