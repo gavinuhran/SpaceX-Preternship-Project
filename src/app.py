@@ -235,7 +235,7 @@ def load_num_orders_graph():
             'xanchor': 'center',
             'yanchor': 'top'
         },
-        margin=dict(l=10, r=10, t=50, b=20)
+        margin=dict(l=0, r=0, t=50, b=20)
     )
 
     return fig
@@ -296,9 +296,6 @@ app.layout = html.Div(
                                 children=[
                                     html.Div(
                                         className='sliders',
-                                        style={
-                                            'width': 400
-                                        },
                                         children=[
                                             'Weight Sliders:',
                                             html.Div(
@@ -417,23 +414,15 @@ app.layout = html.Div(
                     html.Div(
                         className='row',
                         children=[
-                            html.Div(
+                            dcc.Graph(
                                 className='data-table box',
-                                children=[
-                                    dcc.Graph(
-                                        id='sorted-score-table',
-                                        figure=generate_table()
-                                    ),
-                                ]
+                                id='sorted-score-table',
+                                figure=generate_table()
                             ),
-                            html.Div(
+                            dcc.Graph(
                                 className='data-table box',
-                                children=[
-                                    dcc.Graph(
-                                        id='num-orders-chart',
-                                        figure=load_num_orders_graph()
-                                    ),
-                                ]
+                                id='num-orders-chart',
+                                figure=load_num_orders_graph()
                             )
                         ]
                     )
@@ -451,8 +440,7 @@ app.layout = html.Div(
                                 id='vendor-checklist',
                                 className='box',
                                 options=checklist_list,
-                                value = sorted_vendors,
-                                style = {'display': 'block'}
+                                value = sorted_vendors
                             ),
                             dcc.Graph(
                                 id='stats-compare',
@@ -461,6 +449,8 @@ app.layout = html.Div(
                             ),
                             dcc.Dropdown(
                                 id='stat-dropdown',
+                                :xa
+                                :xa
                                 className='box',
                                 options=[
                                     {'label': 'Total Failure Rate', 'value': 'Total Failure Rate'},

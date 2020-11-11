@@ -63,11 +63,24 @@ body {
     height: 50vh;
 }
 
+.data-table {
+    margin-right: 2vw;
+    width: 48vw;
+}
+
 #sorted-scores .main-svg {
     border-radius: 10px;
 }
 
 #stats-compare .main-svg {
+    border-radius: 10px;
+}
+
+#num-orders-chart .main-svg {
+    border-radius: 10px;
+}
+
+#sorted-score-table .main-svg {
     border-radius: 10px;
 }
 
