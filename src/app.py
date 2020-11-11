@@ -161,7 +161,8 @@ def load_stats_graph(vendors=['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'],
             x=vendors,
             y=stat_data,
             text=stat_data,
-            textposition='auto'
+            textposition='auto',
+            marker_color=list(colors),
         )
     ])
 
@@ -205,7 +206,8 @@ def generate_table():
     fig = go.Figure(data=[go.Table(header=dict(values=['Vendor', 'Scores']),
                  cells=dict(values=[list(sorted_score_data['Vendor']), sorted_scores]))
                      ])
-    fig.layout.margin = dict(l=10, r=10, t=10, b=10)
+    fig.update_layout(title = "Sorted Vendor Scores (Lowest to Highest)")
+    fig.layout.margin = dict(l=10, r=10, t=60, b=10)
     return fig
 
 
@@ -263,7 +265,7 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 app.layout = html.Div(
         children=[
         html.H3(
-            children='SpaceX Dashboard',
+            children='Vendor Dashboard',
             style={
                 'textAlign': 'center'
             }
@@ -298,6 +300,15 @@ app.layout = html.Div(
                                             'width': 400
                                         },
                                         children=[
+                                            'Weight Sliders:',
+                                            html.Div(
+                                                children='1 - Least Influence; 10 - Most Influence',
+                                                style={
+                                                    'textAlign': 'center',
+                                                    'marginBottom': 10,
+                                                    'marginTop': 10
+                                                }
+                                            ),
                                             'Days Past PO',
                                             dcc.Slider(
                                                 id='my-slider1',
@@ -440,7 +451,8 @@ app.layout = html.Div(
                                 id='vendor-checklist',
                                 className='box',
                                 options=checklist_list,
-                                value = sorted_vendors
+                                value = sorted_vendors,
+                                style = {'display': 'block'}
                             ),
                             dcc.Graph(
                                 id='stats-compare',
