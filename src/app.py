@@ -25,6 +25,8 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'include'))
 from init_data import *
 from dictionary_functions import *
 
+# Setup server variable
+server = app.server
 
 # SET GLOBAL VARIABLES
 filename = 'FakeData'
