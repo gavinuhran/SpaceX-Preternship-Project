@@ -54,6 +54,8 @@ def load_data(weight1, weight2, weight3, weight4):
     for i in sorted_vendors:
         checklist_list.append(dict({'label': str(i), 'value' : str(i)}))
 
+    checklist_list.sort(key=lambda x: x['label'], reverse=False)
+
     colors = []
     if state == 'highlight':
         for i in range(len(sorted_vendors)):
@@ -148,13 +150,16 @@ def load_stats_graph(vendors=['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'],
     stat_data = []
     if stat == 'Total Failure Rate':
         for i in vendors:
-            stat_data.append(get_total_failure_rate(vendor_dictionary, i))
+            stat_data.append(vendor_dictionary[i].get_total_failure_rate())
     elif stat == 'Average Days Past PO':
         for i in vendors:
             stat_data.append(vendor_dictionary[i].get_avg_days_past_PO())
     elif stat == 'Average Cost Away from Target':
         for i in vendors:
             stat_data.append(vendor_dictionary[i].get_avg_cost_away_from_target()/100)
+    elif stat == 'Average Lot Size':
+        for i in vendors:
+            stat_data.append(vendor_dictionary[i].get_avg_lot_size())
 
     stat_fig = go.Figure([
         go.Bar(
@@ -440,7 +445,7 @@ app.layout = html.Div(
                                 id='vendor-checklist',
                                 className='box',
                                 options=checklist_list,
-                                value = sorted_vendors
+                                value=sorted_vendors
                             ),
                             dcc.Graph(
                                 id='stats-compare',
@@ -449,13 +454,12 @@ app.layout = html.Div(
                             ),
                             dcc.Dropdown(
                                 id='stat-dropdown',
-                                :xa
-                                :xa
                                 className='box',
                                 options=[
                                     {'label': 'Total Failure Rate', 'value': 'Total Failure Rate'},
                                     {'label': 'Average Days Past PO', 'value': 'Average Days Past PO'},
-                                    {'label': 'Average Cost Away from Target', 'value': 'Average Cost Away from Target'}
+                                    {'label': 'Average Cost Away from Target', 'value': 'Average Cost Away from Target'},
+                                    {'label': 'Average Lot Size', 'value': 'Average Lot Size'}
                                 ],
                                 value='Total Failure Rate'
                             )

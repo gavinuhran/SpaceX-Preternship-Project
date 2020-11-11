@@ -45,6 +45,9 @@ class Vendor:
         # return 1 / (1 + math.exp(-x))
         return self.total_orders_score / self.get_num_orders()
 
+    # GET TOTAL FAILUTRE RATE
+    def get_total_failure_rate(self):
+        return float(self.total_nonconforming_units + self.total_units_downstream_failure) / self.total_lot_size
 
     # GET AVERAGE DAYS PAST PO
     # Parameters:
