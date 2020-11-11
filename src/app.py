@@ -138,7 +138,10 @@ def load_score_graph(weight1, weight2, weight3, weight4):
             'yanchor': 'top'
         },
         margin=dict(l=10, r=10, t=50, b=10),
-        xaxis_tickformat='%'
+        xaxis_tickformat='%',
+        yaxis=dict(
+            showticklabels=False
+        )
     )
 
     return fig
@@ -228,7 +231,7 @@ def load_num_orders_graph():
 
     fig.update_traces(
         textinfo='label',
-        textfont_size=14,
+        textfont_size=12,
         marker=dict(colors=colors)
     )
 
