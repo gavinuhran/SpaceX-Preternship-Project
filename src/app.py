@@ -25,8 +25,6 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'include'))
 from init_data import *
 from dictionary_functions import *
 
-# Setup server variable
-server = app.server
 
 # SET GLOBAL VARIABLES
 filename = 'FakeData'
@@ -270,6 +268,9 @@ colors = {
 }
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+
+# Setup server variable
+server = app.server
 
 # APP LAYOUT
 app.layout = html.Div(
