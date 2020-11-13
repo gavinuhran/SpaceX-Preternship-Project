@@ -86,7 +86,7 @@ body {
 
 #stats-compare {
     width: 45vw;
-    height: 50vh;
+    height: 70vh;
     margin-right: 5vw;
 }
 
@@ -96,10 +96,17 @@ body {
     justify-content: center;
     align-items: center;
     width: 10vw;
-    height: 50vh;
+    height: 70vh;
     margin-right: 5vw;
     margin-left: 2vw;
     font-family: 'Andale Mono';
+}
+
+#vendor-checklist label {
+    width: 100%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 #vendor-checklist input {

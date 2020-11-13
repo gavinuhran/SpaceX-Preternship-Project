@@ -61,3 +61,25 @@ def get_num_orders(dictionary, vendors):
     for vendor in vendors:
         num_orders.append(dictionary[vendor].get_num_orders())
     return num_orders
+
+# Generates a hex color for a string based on a hash
+def color_hash(s):
+    l = s.lower()
+    # Initial large hexadecimal value as initial hash
+    h = int('cbf29ce484222325', 16)
+
+    # Run operations to generate unique value for all strings
+    for i in range(len(l)):
+        b = ord(l[i])
+        m = int('1099511628211', 16) 
+        h *= m + b
+        h ^= b
+        h &= 2**32 - 1
+    
+    # Assign last 3 bytes to red, green, and blue
+    r = (h & int('FF0000', 16)) >> 16
+    g = (h & int('00FF00', 16)) >> 8
+    b = h & int('0000FF', 16)
+
+    # Concatenate hex values of bytes to get hex color code
+    return '#' + (hex(r)[2:] + hex(g)[2:] + hex(b)[2:]).zfill(6)
