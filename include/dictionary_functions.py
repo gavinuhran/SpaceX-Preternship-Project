@@ -66,7 +66,7 @@ def get_num_orders(dictionary, vendors):
 def color_hash(s):
     l = s.lower()
     # Initial large hexadecimal value as initial hash
-    h = int("cbf29ce484222325", 16)
+    h = int('cbf29ce484222325', 16)
 
     # Run operations to generate unique value for all strings
     for i in range(len(l)):

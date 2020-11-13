@@ -158,7 +158,7 @@ def load_stats_graph(vendors=['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'],
             stat_data.append(vendor_dictionary[i].get_avg_days_past_PO())
     elif stat == 'Average Cost Away from Target':
         for i in vendors:
-            stat_data.append(vendor_dictionary[i].get_avg_cost_away_from_target()/100)
+            stat_data.append(vendor_dictionary[i].get_avg_cost_away_from_target())
     elif stat == 'Average Lot Size':
         for i in vendors:
             stat_data.append(vendor_dictionary[i].get_avg_lot_size())

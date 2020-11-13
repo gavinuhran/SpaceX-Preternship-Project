@@ -14,7 +14,7 @@ def import_data(file_name, weights):
         for row in data_reader:
             # Converts data to proper data types (ints and float for numeric data)
             vendor_name = row[0]
-            order_data = [int(i) for i in row[1:-1]] + [int(float(row[-1][:-1]))]
+            order_data = [int(i) for i in row[1:-1]] + [int(float(row[-1][:-1])/100)]
             
             # Add vendor to dictionary if not already present
             if vendor_name not in vendors:
