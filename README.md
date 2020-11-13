@@ -1,5 +1,8 @@
 # SpaceX Preternship Project for Ryan Green
 ## Created by Gavin Uhran, Mike Prieto, & Tom Henry
+
+The application is currently running on a Heroku server and can be accessed at [https://vendor-analysis-app.herokuapp.com/](https://vendor-analysis-app.herokuapp.com/)
+
 ### Disclaimer
 This project is not for the company SpaceX, but for a specific employee and University of Notre Dame alum whom we are partnering with.
 ### Description
@@ -14,7 +17,7 @@ To run the application, you simply need to use the virtual environment that we h
     $ source venv/bin/activate
     $ python src/app.py
 
-and then access the application at (http://127.0.0.1:8050/)[http://127.0.0.1:8050/] in your browser.
+and then access the application at [http://127.0.0.1:8050/](http://127.0.0.1:8050/) in your browser.
 
 To run this program without the virtual environment, you must install the following libraries using `pip`:
 
