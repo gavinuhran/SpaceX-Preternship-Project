@@ -272,6 +272,7 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 server = app.server
 
 # APP LAYOUT
+app.title = 'Vendor Dashboard'
 app.layout = html.Div(
         children=[
         html.H3(
