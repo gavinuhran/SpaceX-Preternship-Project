@@ -75,8 +75,7 @@ def load_data(weight1, weight2, weight3, weight4):
         if vendor_colors == None:
             vendor_colors = {}
             for vendor in sorted_vendors:
-                random_color = '#' + "%06x" % random.randint(0, 0xFFFFFF)
-                vendor_colors[vendor] = random_color
+                vendor_colors[vendor] = color_hash(vendor)
         for i in range(len(sorted_vendors)):
             colors.append(vendor_colors[sorted_vendors[i]])
 
