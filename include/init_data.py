@@ -7,7 +7,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_DIR = os.path.join(BASE_DIR, 'data')
 
 def import_data(file_name, weights):
-    print(file_name)
     vendors = {}
     with open(os.path.join(DATA_DIR, file_name + '.csv'), 'r', encoding='utf-8-sig') as data:
         data_reader = csv.reader(data)
