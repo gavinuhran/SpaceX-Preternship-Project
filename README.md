@@ -1,8 +1,9 @@
 
 # SpaceX Preternship Project
-Gavin Uhran ([gavinuhran](https://github.com/gavinuhran/)), Tom Henry ([tomkhenry](https://github.com/tomkhenry/)), Mike Prieto ([michaelpri10](https://github.com/michaelpri10/))
 
-![](images/Vendor-Scores.JPG)
+----
+## Contributors
+Gavin Uhran ([gavinuhran](https://github.com/gavinuhran/)), Tom Henry ([tomkhenry](https://github.com/tomkhenry/)), Mike Prieto ([michaelpri10](https://github.com/michaelpri10/))
 
 ----
 ## Disclaimer
