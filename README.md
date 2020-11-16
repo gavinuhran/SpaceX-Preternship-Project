@@ -29,6 +29,7 @@ All import files MUST be an XLSX file. Additionally, all files must store data i
 3. **Adjusting Sliders**
 Adjust the sliders to manipulate the weighted variables:
 	* Days past PO, nonconforming units, units downstream failure, and cost away from target
+
 ![](images/Slider-Weights.gif) </br>
 
 4. **Vendor Comparisons**
