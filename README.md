@@ -23,18 +23,15 @@ All import files MUST be an XLSX file. Additionally, all files must store data i
 |Vendor  |Days Past PO|Lot Size |Nonconforming Units|Units Downstream Failure|Cost (% Away from Target)|
 |--------|------------|---------|-------------------|----------------|----------------|
 |`vendor`|`integer`|`integer`|`integer`|`integer`|`percentage`|
-
 ![](images/Upload-Files.gif) </br>
 
 3. **Adjusting Sliders**
 Adjust the sliders to manipulate the weighted variables:
 	* Days past PO, nonconforming units, units downstream failure, and cost away from target
-
 ![](images/Slider-Weights.gif) </br>
 
 4. **Vendor Comparisons**
 Select 'Vendor Comparisons' from the tabs at the top of the page. From this tab, use the checklist to display the vendors you want to observe, and the dropdown to display compare the vendors performance in a specific category.
-
 ![](images/Vendor-Comparisons.gif) </br>
 
 ----
