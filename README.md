@@ -34,6 +34,7 @@ Adjust the sliders to manipulate the weighted variables:
 
 4. **Vendor Comparisons**
 Select 'Vendor Comparisons' from the tabs at the top of the page. From this tab, use the checklist to display the vendors you want to observe, and the dropdown to display compare the vendors performance in a specific category.
+
 ![](images/Vendor-Comparisons.gif) </br>
 
 ----
