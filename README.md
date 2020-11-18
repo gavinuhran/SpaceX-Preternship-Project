@@ -11,7 +11,7 @@ This project is not for the company SpaceX, but for an external industrial repre
 
 ----
 ## Overview
-For the SpaceX Preternship Project, we worked with Ryan Green, an external industrial representative at SpaceX, to create the Vendor Analysis Dashboard. The dashboard collects vendor data from uploaded Excel files to provide data visualizations in Python for decreasing overhead and increasing leverage with suppliers. It runs on a Heroku server at http://vendor-analysis-app.herokuapp.com/ and utilizes the [Dash by Plotly](https://plotly.com/dash/) data visualization framework.
+For the SpaceX Preternship Project, we worked with Ryan Green, an external industrial representative at SpaceX, to create the Vendor Analysis Dashboard. The dashboard collects vendor data from uploaded Excel files to provide data visualizations in Python for decreasing overhead and increasing leverage with suppliers. It runs on a Heroku server at [http://vendor-analysis-app.herokuapp.com/](http://vendor-analysis-app.herokuapp.com/) and utilizes the [Dash by Plotly](https://plotly.com/dash/) data visualization framework. The GitHub repository can be accessed at [https://github.com/gavinuhran/SpaceX-Preternship-Project](https://github.com/gavinuhran/SpaceX-Preternship-Project).
 
 ----
 ## Usage
